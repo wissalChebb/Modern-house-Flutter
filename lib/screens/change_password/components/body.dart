@@ -5,6 +5,8 @@ import 'package:pim/screens/change_password/components/change_password_form.dart
 import 'package:pim/size_config.dart';
 
 class Body extends StatelessWidget {
+  final String email;
+  Body(this.email);
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -20,7 +22,7 @@ class Body extends StatelessWidget {
                 Text("Enter New Password", style: headingStyle),
 
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
-                ChangePasswordForm(),
+                ChangePasswordForm(email),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
 
                 SizedBox(height: getProportionateScreenHeight(20)),

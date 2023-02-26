@@ -8,10 +8,15 @@ import 'package:pim/screens/home/home_screen.dart';
 import 'package:pim/screens/sign_in/sign_in_screen.dart';
 import 'dart:convert';
 import 'dart:async';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:async';
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
 class ChangePasswordForm extends StatefulWidget {
+  final String email;
+  ChangePasswordForm(this.email);
   @override
   _ChangePasswordFormState createState() => _ChangePasswordFormState();
 }
@@ -55,6 +60,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 //navigation
+                changepassword(context, password, widget.email);
               }
             },
           ),
@@ -127,5 +133,32 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
       ),
     );
+  }
+}
+
+Future changepassword(context, value, email) async {
+  final response = await http.post(
+    Uri.parse('http://localhost:9090/user/changepwd'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{'email': email, 'password': value}),
+  );
+
+  if (response.statusCode == 200) {
+    // If the server did return a 201 CREATED response,
+    // then parse the JSON.
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SignInScreen(),
+      ),
+    );
+
+    print("code  valid");
+  } else {
+    // If the server did not return a 201 CREATED response,
+    // then throw an exception.
+    throw Exception('Failed to create album.');
   }
 }

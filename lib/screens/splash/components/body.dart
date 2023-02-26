@@ -71,7 +71,7 @@ class _BodyState extends State<Body> {
                     DefaultButton(
                       text: "Continue",
                       press: () {
-                        Navigator.pushNamed(context, ChangePassword.routeName);
+                        Navigator.pushNamed(context, SignInScreen.routeName);
                       },
                     ),
                     Spacer(),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pim/components/default_button.dart';
+import 'package:pim/screens/change_password/change_password.dart';
 import 'package:pim/size_config.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -7,8 +8,10 @@ import 'dart:async';
 import '../../../constants.dart';
 
 class OtpForm extends StatefulWidget {
+  final String email;
   const OtpForm({
     Key? key,
+    required this.email,
   }) : super(key: key);
 
   @override
@@ -37,10 +40,9 @@ class _OtpFormState extends State<OtpForm> {
   }
 
   void nextField(String value, FocusNode? focusNode) {
-    
     if (value.length == 1) {
       focusNode!.requestFocus();
-      v= (v!+value);
+      v = (v! + value);
     }
   }
 
@@ -104,8 +106,8 @@ class _OtpFormState extends State<OtpForm> {
                     if (value.length == 1) {
                       pin4FocusNode!.unfocus();
                       // Then you need to check is the code is correct or not
-                      v= (v!+ value);
-                      checkcode(v);
+                      v = (v! + value);
+                      checkcode(context, v, widget.email);
                     }
                   },
                 ),
@@ -122,28 +124,30 @@ class _OtpFormState extends State<OtpForm> {
     );
   }
 }
-Future checkcode(value)async {
+
+Future checkcode(context, value, email) async {
   final response = await http.post(
     Uri.parse('http://localhost:9090/user/resetpassword'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
-    body: jsonEncode(<String, String>{
-      'code': value
-
-    }),
+    body: jsonEncode(<String, String>{'code': value}),
   );
 
   if (response.statusCode == 200) {
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
-   
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ChangePassword(email),
+      ),
+    );
+
     print("code  valid");
-    
   } else {
     // If the server did not return a 201 CREATED response,
     // then throw an exception.
     throw Exception('Failed to create album.');
   }
-
 }
