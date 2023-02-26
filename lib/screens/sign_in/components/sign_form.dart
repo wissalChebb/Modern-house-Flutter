@@ -6,6 +6,7 @@ import 'package:pim/models/user.dart';
 import 'package:pim/screens/forgot_password/forgot_password_screen.dart';
 import 'package:pim/screens/login_success/login_success_screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'dart:async';
 import '../../../components/default_button.dart';
@@ -80,8 +81,7 @@ class _SignFormState extends State<SignForm> {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
                 KeyboardUtil.hideKeyboard(context);
-                signin(context,email,password);
-                
+                signin(context, email, password);
               }
             },
           ),
@@ -156,7 +156,11 @@ class _SignFormState extends State<SignForm> {
     );
   }
 }
-Future signin(context,email,password)async {
+
+Future signin(context, email, password) async {
+// obtain shared preferences
+  final prefs = await SharedPreferences.getInstance();
+
   final response = await http.put(
     Uri.parse('http://localhost:9090/user'),
     headers: <String, String>{
@@ -164,8 +168,7 @@ Future signin(context,email,password)async {
     },
     body: jsonEncode(<String, String>{
       'email': email,
-       'password': password,
-
+      'password': password,
     }),
   );
 
@@ -174,12 +177,14 @@ Future signin(context,email,password)async {
     // then parse the JSON.
     Navigator.pushNamed(context, LoginSuccessScreen.routeName);
     final User user = User.fromJson(jsonDecode(response.body));
-    print(user);
+    await prefs.setString('id', user.id);
+    await prefs.setString('username', user.username);
+    await prefs.setString('email', user.email);
 
+    print(user);
   } else {
     // If the server did not return a 201 CREATED response,
     // then throw an exception.
     throw Exception('Failed to create album.');
   }
-
 }
