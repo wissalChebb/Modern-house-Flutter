@@ -4,11 +4,9 @@ import 'package:pim/size_config.dart';
 import 'components/body.dart';
 
 class OtpScreen extends StatelessWidget {
-  final String email;
-  const OtpScreen({
-    required this.email,
-  });
   static String routeName = "/otp";
+  final String email;
+  const OtpScreen( {required this.email,});
 
   @override
   Widget build(BuildContext context) {

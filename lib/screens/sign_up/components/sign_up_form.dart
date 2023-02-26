@@ -1,14 +1,13 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:pim/components/custom_surfix_icon.dart';
 import 'package:pim/components/default_button.dart';
 import 'package:pim/components/form_error.dart';
-import 'package:pim/helper/keyboard.dart';
 import 'package:pim/screens/complete_profile/complete_profile_screen.dart';
-import 'package:pim/screens/login_success/login_success_screen.dart';
-import 'package:pim/screens/sign_in/sign_in_screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:pim/screens/home/home_screen.dart';
+import 'package:pim/screens/sign_in/sign_in_screen.dart';
+import 'dart:convert';
+import 'dart:async';
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
@@ -19,8 +18,8 @@ class SignUpForm extends StatefulWidget {
 
 class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
-  String? email;
   String? username;
+  String? email;
   String? password;
   String? conform_password;
   bool remember = false;
@@ -56,48 +55,17 @@ class _SignUpFormState extends State<SignUpForm> {
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
-            text: "Register",
+            text: "Continue",
             press: () {
-              Signeup(email, password, username);
-              print(email);
-              print(password);
-              print(username);
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
+                signup(email,password,username);
                 // if all are valid then go to success screen
-                KeyboardUtil.hideKeyboard(context);
                 Navigator.pushNamed(context, SignInScreen.routeName);
               }
             },
           ),
         ],
-      ),
-    );
-  }
-
-  TextFormField buildFirstNameFormField() {
-    return TextFormField(
-      onSaved: (newValue) => username = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: kNamelNullError);
-        }
-        username = value;
-      },
-      validator: (value) {
-        if (value!.isEmpty) {
-          addError(error: kNamelNullError);
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        labelText: "Username",
-        hintText: "Enter your username",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
       ),
     );
   }
@@ -178,7 +146,7 @@ class _SignUpFormState extends State<SignUpForm> {
         } else if (emailValidatorRegExp.hasMatch(value)) {
           removeError(error: kInvalidEmailError);
         }
-        email = value;
+        return null;
       },
       validator: (value) {
         if (value!.isEmpty) {
@@ -200,19 +168,58 @@ class _SignUpFormState extends State<SignUpForm> {
       ),
     );
   }
+  TextFormField buildFirstNameFormField() {
+    return TextFormField(
+      onSaved: (newValue) => username = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kNamelNullError);
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          addError(error: kNamelNullError);
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "username",
+        hintText: "Enter your username",
+        // If  you are using latest version of flutter then lable text and hint text shown like this
+        // if you r using flutter less then 1.20.* then maybe this is not working properly
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
+      ),
+    );
+  }
 }
 
-Signeup(email, password, username) async {
-  final http.Response response = await http.post(
-    Uri.parse("http://localhost:9090/user"),
+
+Future signup(email,password,username)async {
+  final response = await http.post(
+    Uri.parse('http://localhost:9090/user'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
     body: jsonEncode(<String, String>{
-      'username': username,
       'email': email,
-      'password': password
+      'password': password,
+      'username':username,
+
     }),
   );
-  print(response.body);
+
+  if (response.statusCode == 200) {
+    // If the server did return a 201 CREATED response,
+    // then parse the JSON.
+    
+
+  } else {
+    // If the server did not return a 201 CREATED response,
+    // then throw an exception.
+    throw Exception('Failed to create album.');
+  }
+
 }
