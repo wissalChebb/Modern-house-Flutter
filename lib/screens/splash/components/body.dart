@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pim/constants.dart';
+import 'package:pim/screens/change_password/change_password.dart';
 import 'package:pim/screens/sign_in/sign_in_screen.dart';
 import 'package:pim/size_config.dart';
 
@@ -70,7 +71,7 @@ class _BodyState extends State<Body> {
                     DefaultButton(
                       text: "Continue",
                       press: () {
-                        Navigator.pushNamed(context, SignInScreen.routeName);
+                        Navigator.pushNamed(context, ChangePassword.routeName);
                       },
                     ),
                     Spacer(),
