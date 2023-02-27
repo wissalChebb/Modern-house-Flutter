@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pim/components/custom_surfix_icon.dart';
 import 'package:pim/components/default_button.dart';
 import 'package:pim/components/form_error.dart';
@@ -67,20 +68,25 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                 Positioned(
                     bottom: 0,
                     right: 0,
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          width: 4,
-                          color: Theme.of(context).scaffoldBackgroundColor,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _getImage();
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            width: 4,
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                          ),
+                          color: Color(0xFFFF7643),
                         ),
-                        color: Color(0xFFFF7643),
-                      ),
-                      child: Icon(
-                        Icons.edit,
-                        color: Colors.white,
+                        child: Icon(
+                          Icons.edit,
+                          color: Colors.white,
+                        ),
                       ),
                     )),
               ],
@@ -204,5 +210,14 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
       ),
     );
+  }
+}
+
+final picker = ImagePicker();
+Future<void> _getImage() async {
+  final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+  if (pickedFile != null) {
+    // Use the picked image
   }
 }
