@@ -59,7 +59,7 @@ class _SignUpFormState extends State<SignUpForm> {
             press: () {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
-                signup(email,password,username);
+                signup(email, password, username);
                 // if all are valid then go to success screen
                 Navigator.pushNamed(context, SignInScreen.routeName);
               }
@@ -168,6 +168,7 @@ class _SignUpFormState extends State<SignUpForm> {
       ),
     );
   }
+
   TextFormField buildFirstNameFormField() {
     return TextFormField(
       onSaved: (newValue) => username = newValue,
@@ -196,30 +197,25 @@ class _SignUpFormState extends State<SignUpForm> {
   }
 }
 
-
-Future signup(email,password,username)async {
+Future signup(email, password, username) async {
   final response = await http.post(
-    Uri.parse('http://localhost:9090/user'),
+    Uri.parse('http://10.0.2.2:9090/user'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
     body: jsonEncode(<String, String>{
       'email': email,
       'password': password,
-      'username':username,
-
+      'username': username,
     }),
   );
 
   if (response.statusCode == 200) {
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
-    
-
   } else {
     // If the server did not return a 201 CREATED response,
     // then throw an exception.
     throw Exception('Failed to create album.');
   }
-
 }

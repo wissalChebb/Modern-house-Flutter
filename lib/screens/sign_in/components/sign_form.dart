@@ -4,6 +4,7 @@ import 'package:pim/components/form_error.dart';
 import 'package:pim/helper/keyboard.dart';
 import 'package:pim/models/user.dart';
 import 'package:pim/screens/forgot_password/forgot_password_screen.dart';
+import 'package:pim/screens/home/home_screen.dart';
 import 'package:pim/screens/login_success/login_success_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -81,6 +82,7 @@ class _SignFormState extends State<SignForm> {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
                 KeyboardUtil.hideKeyboard(context);
+
                 signin(context, email, password);
               }
             },
@@ -162,7 +164,7 @@ Future signin(context, email, password) async {
   final prefs = await SharedPreferences.getInstance();
 
   final response = await http.put(
-    Uri.parse('http://localhost:9090/user'),
+    Uri.parse('http://10.0.2.2:9090/user'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
