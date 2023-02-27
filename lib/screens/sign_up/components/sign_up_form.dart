@@ -199,7 +199,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
 Future signup(email, password, username) async {
   final response = await http.post(
-    Uri.parse('http://10.0.2.2:9090/user'),
+    Uri.parse('http://localhost:9090/user'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -216,6 +216,6 @@ Future signup(email, password, username) async {
   } else {
     // If the server did not return a 201 CREATED response,
     // then throw an exception.
-    throw Exception('Failed to create album.');
+    print(response.body);
   }
 }

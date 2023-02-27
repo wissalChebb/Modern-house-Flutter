@@ -24,6 +24,7 @@ class _SignFormState extends State<SignForm> {
   String? email;
   String? password;
   bool? remember = false;
+
   final List<String?> errors = [];
 
   void addError({String? error}) {
@@ -164,7 +165,7 @@ Future signin(context, email, password) async {
   final prefs = await SharedPreferences.getInstance();
 
   final response = await http.put(
-    Uri.parse('http://10.0.2.2:9090/user'),
+    Uri.parse('http://localhost:9090/user'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -177,11 +178,10 @@ Future signin(context, email, password) async {
   if (response.statusCode == 200) {
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
-    Navigator.pushNamed(context, LoginSuccessScreen.routeName);
-    final User user = User.fromJson(jsonDecode(response.body));
-    await prefs.setString('id', user.id);
-    await prefs.setString('username', user.username);
-    await prefs.setString('email', user.email);
+    user = User.fromJson(jsonDecode(response.body));
+    if (user!.verified) {
+      Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+    }
 
     print(user);
   } else {
