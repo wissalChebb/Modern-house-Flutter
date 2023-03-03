@@ -8,18 +8,22 @@ import 'package:pim/screens/home/home_screen.dart';
 import 'package:pim/screens/sign_in/sign_in_screen.dart';
 import 'dart:convert';
 import 'dart:async';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:async';
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
-class SignUpForm extends StatefulWidget {
+class ChangePasswordForm extends StatefulWidget {
+  final String email;
+  ChangePasswordForm(this.email);
   @override
-  _SignUpFormState createState() => _SignUpFormState();
+  _ChangePasswordFormState createState() => _ChangePasswordFormState();
 }
 
-class _SignUpFormState extends State<SignUpForm> {
+class _ChangePasswordFormState extends State<ChangePasswordForm> {
   final _formKey = GlobalKey<FormState>();
-  String? username;
-  String? email;
+
   String? password;
   String? conform_password;
   bool remember = false;
@@ -45,23 +49,18 @@ class _SignUpFormState extends State<SignUpForm> {
       key: _formKey,
       child: Column(
         children: [
-          buildFirstNameFormField(),
-          SizedBox(height: getProportionateScreenHeight(30)),
-          buildEmailFormField(),
-          SizedBox(height: getProportionateScreenHeight(30)),
           buildPasswordFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
           buildConformPassFormField(),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
-            text: "Continue",
+            text: "Confirm",
             press: () {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
-                signup(email, password, username);
-                // if all are valid then go to success screen
-                Navigator.pushNamed(context, SignInScreen.routeName);
+                //navigation
+                changepassword(context, password, widget.email);
               }
             },
           ),
@@ -135,87 +134,31 @@ class _SignUpFormState extends State<SignUpForm> {
       ),
     );
   }
-
-  TextFormField buildEmailFormField() {
-    return TextFormField(
-      keyboardType: TextInputType.emailAddress,
-      onSaved: (newValue) => email = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: kEmailNullError);
-        } else if (emailValidatorRegExp.hasMatch(value)) {
-          removeError(error: kInvalidEmailError);
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value!.isEmpty) {
-          addError(error: kEmailNullError);
-          return "";
-        } else if (!emailValidatorRegExp.hasMatch(value)) {
-          addError(error: kInvalidEmailError);
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        labelText: "Email",
-        hintText: "Enter your email",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
-      ),
-    );
-  }
-
-  TextFormField buildFirstNameFormField() {
-    return TextFormField(
-      onSaved: (newValue) => username = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: kNamelNullError);
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value!.isEmpty) {
-          addError(error: kNamelNullError);
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        labelText: "username",
-        hintText: "Enter your username",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
-      ),
-    );
-  }
 }
 
-Future signup(email, password, username) async {
+Future changepassword(context, value, email) async {
   final response = await http.post(
-    Uri.parse('http://localhost:9090/user'),
+    Uri.parse('http://localhost:9090/user/changepwd'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
-    body: jsonEncode(<String, String>{
-      'email': email,
-      'password': password,
-      'username': username,
-    }),
+    body: jsonEncode(<String, String>{'email': email, 'password': value}),
   );
 
   if (response.statusCode == 200) {
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SignInScreen(),
+      ),
+    );
+
+    print("code  valid");
   } else {
     // If the server did not return a 201 CREATED response,
     // then throw an exception.
-    print(response.body);
+    throw Exception('Failed to create album.');
   }
 }

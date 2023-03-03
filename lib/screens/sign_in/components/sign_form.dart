@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:pim/components/custom_surfix_icon.dart';
 import 'package:pim/components/form_error.dart';
 import 'package:pim/helper/keyboard.dart';
+import 'package:pim/models/user.dart';
 import 'package:pim/screens/forgot_password/forgot_password_screen.dart';
+import 'package:pim/screens/home/home_screen.dart';
 import 'package:pim/screens/login_success/login_success_screen.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+import 'dart:async';
 import '../../../components/default_button.dart';
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -19,6 +24,7 @@ class _SignFormState extends State<SignForm> {
   String? email;
   String? password;
   bool? remember = false;
+
   final List<String?> errors = [];
 
   void addError({String? error}) {
@@ -77,7 +83,8 @@ class _SignFormState extends State<SignForm> {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
                 KeyboardUtil.hideKeyboard(context);
-                Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+
+                signin(context, email, password);
               }
             },
           ),
@@ -96,13 +103,13 @@ class _SignFormState extends State<SignForm> {
         } else if (value.length >= 8) {
           removeError(error: kShortPassError);
         }
-        return null;
+        password = value;
       },
       validator: (value) {
         if (value!.isEmpty) {
           addError(error: kPassNullError);
           return "";
-        } else if (value.length < 8) {
+        } else if (value.length < 5) {
           addError(error: kShortPassError);
           return "";
         }
@@ -129,7 +136,7 @@ class _SignFormState extends State<SignForm> {
         } else if (emailValidatorRegExp.hasMatch(value)) {
           removeError(error: kInvalidEmailError);
         }
-        return null;
+        email = value;
       },
       validator: (value) {
         if (value!.isEmpty) {
@@ -150,5 +157,36 @@ class _SignFormState extends State<SignForm> {
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
       ),
     );
+  }
+}
+
+Future signin(context, email, password) async {
+// obtain shared preferences
+  final prefs = await SharedPreferences.getInstance();
+
+  final response = await http.put(
+    Uri.parse('http://localhost:9090/user'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'email': email,
+      'password': password,
+    }),
+  );
+
+  if (response.statusCode == 200) {
+    // If the server did return a 201 CREATED response,
+    // then parse the JSON.
+    user = User.fromJson(jsonDecode(response.body));
+    if (user!.verified) {
+      Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+    }
+
+    print(user);
+  } else {
+    // If the server did not return a 201 CREATED response,
+    // then throw an exception.
+    throw Exception('Failed to create album.');
   }
 }

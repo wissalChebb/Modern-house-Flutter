@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:pim/size_config.dart';
 
 import 'components/body.dart';
 
-class OtpScreen extends StatelessWidget {
-  static String routeName = "/otp";
+class ChangePassword extends StatelessWidget {
+  static String routeName = "/ChangePassword";
   final String email;
-  const OtpScreen( {required this.email,});
-
+  ChangePassword(this.email);
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("OTP Verification"),
+        title: Text("change Password"),
       ),
       body: Body(email),
     );
