@@ -42,13 +42,13 @@ class ProductCard extends StatelessWidget {
                   ),
                   child: Hero(
                     tag: product.id.toString(),
-                    child: Image.asset(product.image[0]),
+                    child: Image.asset(product.images[0]),
                   ),
                 ),
               ),
               const SizedBox(height: 10),
               Text(
-                product.productname,
+                product.title,
                 style: TextStyle(color: Colors.black),
                 maxLines: 2,
               ),

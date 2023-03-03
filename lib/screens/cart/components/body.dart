@@ -4,7 +4,7 @@ import 'package:pim/models/Cart.dart';
 
 import '../../../size_config.dart';
 import 'cart_card.dart';
-/*
+
 class Body extends StatefulWidget {
   @override
   _BodyState createState() => _BodyState();
@@ -47,4 +47,4 @@ class _BodyState extends State<Body> {
       ),
     );
   }
-}*/
+}

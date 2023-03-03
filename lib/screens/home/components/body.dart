@@ -14,8 +14,13 @@ class Body extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
+<<<<<<< Updated upstream
            /* SizedBox(height: getProportionateScreenHeight(20)),
             HomeHeader(),*/
+=======
+            SizedBox(height: getProportionateScreenHeight(20)),
+            HomeHeader(),
+>>>>>>> Stashed changes
             SizedBox(height: getProportionateScreenWidth(10)),
             DiscountBanner(),
             Categories(),

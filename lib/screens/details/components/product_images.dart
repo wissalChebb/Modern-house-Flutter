@@ -3,7 +3,7 @@ import 'package:pim/models/Product.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
-/*
+
 class ProductImages extends StatefulWidget {
   const ProductImages({
     Key? key,
@@ -32,7 +32,7 @@ class _ProductImagesState extends State<ProductImages> {
             ),
           ),
         ),
-         SizedBox(height: getProportionateScreenWidth(20)),
+        // SizedBox(height: getProportionateScreenWidth(20)),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -63,8 +63,8 @@ class _ProductImagesState extends State<ProductImages> {
           border: Border.all(
               color: kPrimaryColor.withOpacity(selectedImage == index ? 1 : 0)),
         ),
-       // child: Image.asset(widget.product.images[index]),
+        child: Image.asset(widget.product.images[index]),
       ),
     );
   }
-}*/
+}
