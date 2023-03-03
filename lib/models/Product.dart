@@ -1,28 +1,32 @@
+import 'dart:html';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Product {
-  final int id;
-  final String title, description;
-  final List<String> images;
+  final String id;
+  final String productname;
+  final String image;
+  final String description;
+  final double price;
+  final int quantity;
   final List<Color> colors;
-  final double rating, price;
   final bool isFavourite, isPopular;
 
   Product({
     required this.id,
-    required this.images,
+    required this.productname,
+    required this.image,
     required this.colors,
-    this.rating = 0.0,
+    required this.description,
+    required this.price,
+    required this.quantity,
     this.isFavourite = false,
     this.isPopular = false,
-    required this.title,
-    required this.price,
-    required this.description,
   });
-}
 
-// Our demo Products
-
+<<<<<<< Updated upstream
 List<Product> demoProducts = [
   Product(
     id: 1,
@@ -98,6 +102,33 @@ List<Product> demoProducts = [
     isFavourite: true,
   ),
 ];
+=======
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'productname': productname,
+      'image': image,
+      'description': description,
+      'quantity': quantity,
+      'price': price,
+    };
+  }
+>>>>>>> Stashed changes
 
-const String description =
-    "Wireless Controller for PS4™ gives you what you want in your gaming from over precision control your games to sharing …";
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
+      id: json['_id'],
+      productname: json['productname'],
+      image: json['image'],
+      description: json['description'],
+      price: json['price'].toDouble(),
+      quantity: json['quantity']?.toDouble() ?? 0.0,
+      colors: [
+        Color(0xFFF6625E),
+        Color(0xFF836DB8),
+        Color(0xFFDECB9C),
+        Colors.white,
+      ],
+    );
+  }
+}
