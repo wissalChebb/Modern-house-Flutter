@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pim/screens/complete_profile/complete_profile_screen.dart';
 import 'package:pim/screens/sign_in/components/sign_form.dart';
 import 'package:pim/screens/sign_in/sign_in_screen.dart';
-
+import 'package:pim/screens/WishList/Wish_Screen.dart';
 import 'profile_menu.dart';
 import 'profile_pic.dart';
 
@@ -25,6 +25,13 @@ class Body extends StatelessWidget {
             text: "Notifications",
             icon: "assets/icons/Bell.svg",
             press: () {},
+          ),
+          ProfileMenu(
+            text: "WishList",
+            icon: "assets/icons/Heart Icon.svg",
+            press: () {
+              Navigator.pushNamed(context, WishListScreen.routeName);
+            },
           ),
           ProfileMenu(
             text: "Settings",

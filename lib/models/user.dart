@@ -27,7 +27,7 @@ class User {
   String password;
   String role;
   bool verified;
-  String id;
+  String? id;
   DateTime createdAt;
   DateTime updatedAt;
   int v;

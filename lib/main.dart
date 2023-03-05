@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pim/routes.dart';
+import 'package:pim/screens/product/product_screen.dart';
 import 'package:pim/screens/splash/splash_screen.dart';
 import 'package:pim/theme.dart';
 
