@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pim/components/custom_surfix_icon.dart';
 import 'package:pim/components/default_button.dart';
@@ -27,6 +28,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   String? email = user?.email;
   String? id = user?.id;
   String? img = user?.image;
+  String? url;
 
   void addError({String? error}) {
     if (!errors.contains(error))
@@ -44,6 +46,12 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
 
   @override
   Widget build(BuildContext context) {
+    if (img != "") {
+      url = 'http://192.168.1.168:9090/img/' + img!;
+    } else {
+      url =
+          "https://images.pexels.com/photos/3307758/pexels-photo-3307758.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250";
+    }
     return Form(
       key: _formKey,
       child: Column(
@@ -69,33 +77,31 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                       image: DecorationImage(
                           fit: BoxFit.cover,
                           image: NetworkImage(
-                            'http://192.168.1.168:9090/img/' + img!,
+                            url!,
                           ))),
                 ),
                 Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: ElevatedButton(
+                  right: -16,
+                  bottom: 0,
+                  child: SizedBox(
+                    height: 46,
+                    width: 46,
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                          side: BorderSide(color: Colors.white),
+                        ),
+                        primary: Colors.white,
+                        backgroundColor: Color(0xFFF5F6F9),
+                      ),
                       onPressed: () {
                         _getImage(id);
                       },
-                      child: Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            width: 4,
-                            color: Theme.of(context).scaffoldBackgroundColor,
-                          ),
-                          color: Color(0xFFFF7643),
-                        ),
-                        child: Icon(
-                          Icons.edit,
-                          color: Colors.white,
-                        ),
-                      ),
-                    )),
+                      child: SvgPicture.asset("assets/icons/Camera Icon.svg"),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -180,6 +186,7 @@ Future<void> _getImage(id) async {
     request.files
         .add(await http.MultipartFile.fromPath('image', imageFile.path));
     var response = await request.send();
+    user?.image = imageFile.path;
   }
 }
 

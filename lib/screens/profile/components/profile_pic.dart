@@ -11,6 +11,13 @@ class ProfilePic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String? img = user?.image;
+    String? url = "";
+    if (img != "") {
+      url = 'http://192.168.1.168:9090/img/' + img!;
+    } else {
+      url =
+          "https://images.pexels.com/photos/3307758/pexels-photo-3307758.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250";
+    }
     return SizedBox(
       height: 115,
       width: 115,
@@ -19,8 +26,7 @@ class ProfilePic extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           CircleAvatar(
-            backgroundImage:
-                NetworkImage('http://192.168.1.168:9090/img/' + img!),
+            backgroundImage: NetworkImage(url),
           ),
           Positioned(
             right: -16,
