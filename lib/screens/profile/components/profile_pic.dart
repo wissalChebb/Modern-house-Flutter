@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../models/user.dart';
+
 class ProfilePic extends StatelessWidget {
   const ProfilePic({
     Key? key,
@@ -8,6 +10,7 @@ class ProfilePic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String? img = user?.image;
     return SizedBox(
       height: 115,
       width: 115,
@@ -16,7 +19,8 @@ class ProfilePic extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           CircleAvatar(
-            backgroundImage: AssetImage("assets/images/Profile Image.png"),
+            backgroundImage:
+                NetworkImage('http://192.168.1.168:9090/img/' + img!),
           ),
           Positioned(
             right: -16,

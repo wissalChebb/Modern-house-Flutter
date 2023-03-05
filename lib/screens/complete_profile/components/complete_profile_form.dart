@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pim/components/custom_surfix_icon.dart';
@@ -24,6 +26,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   String? username = user?.username;
   String? email = user?.email;
   String? id = user?.id;
+  String? img = user?.image;
 
   void addError({String? error}) {
     if (!errors.contains(error))
@@ -66,7 +69,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                       image: DecorationImage(
                           fit: BoxFit.cover,
                           image: NetworkImage(
-                            "https://images.pexels.com/photos/3307758/pexels-photo-3307758.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250",
+                            'http://192.168.1.168:9090/img/' + img!,
                           ))),
                 ),
                 Positioned(
@@ -74,7 +77,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                     right: 0,
                     child: ElevatedButton(
                       onPressed: () {
-                        _getImage();
+                        _getImage(id);
                       },
                       child: Container(
                         height: 40,
@@ -165,11 +168,18 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
 }
 
 final picker = ImagePicker();
-Future<void> _getImage() async {
-  final pickedFile = await picker.getImage(source: ImageSource.gallery);
+Future<void> _getImage(id) async {
+  var pickedFile = await picker.getImage(source: ImageSource.gallery);
 
   if (pickedFile != null) {
     // Use the picked image
+    File imageFile = File(pickedFile.path);
+    print(imageFile.path);
+    var request = http.MultipartRequest(
+        'POST', Uri.parse('http://192.168.1.168:9090/user/' + id));
+    request.files
+        .add(await http.MultipartFile.fromPath('image', imageFile.path));
+    var response = await request.send();
   }
 }
 

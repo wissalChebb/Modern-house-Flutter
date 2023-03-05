@@ -160,12 +160,32 @@ class _SignFormState extends State<SignForm> {
   }
 }
 
+void _showPopupMessage(BuildContext context, String title, String content) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title),
+        content: Text(content),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text("OK"),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 Future signin(context, email, password) async {
 // obtain shared preferences
   final prefs = await SharedPreferences.getInstance();
 
   final response = await http.put(
-    Uri.parse('http://localhost:9090/user'),
+    Uri.parse('http://192.168.1.168:9090/user'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -179,8 +199,15 @@ Future signin(context, email, password) async {
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
     user = User.fromJson(jsonDecode(response.body));
-    if (user!.verified) {
-      Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+    if (user!.banned) {
+      _showPopupMessage(context, "Banned", "Your account have been banned !");
+    } else {
+      if (user!.verified) {
+        Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+      } else {
+        _showPopupMessage(
+            context, "verification", "Your account is not verified !");
+      }
     }
 
     print(user);

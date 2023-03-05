@@ -59,7 +59,7 @@ class _SignUpFormState extends State<SignUpForm> {
             press: () {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
-                signup(email, password, username);
+                signup(email, password, username, context);
                 // if all are valid then go to success screen
                 Navigator.pushNamed(context, SignInScreen.routeName);
               }
@@ -173,13 +173,13 @@ class _SignUpFormState extends State<SignUpForm> {
     return TextFormField(
       onSaved: (newValue) => username = newValue,
       onChanged: (value) {
-        if (value.isNotEmpty) {
+        if (value.isNotEmpty || value.length <= 10) {
           removeError(error: kNamelNullError);
         }
         return null;
       },
       validator: (value) {
-        if (value!.isEmpty) {
+        if (value!.isEmpty || value.length >= 10) {
           addError(error: kNamelNullError);
           return "";
         }
@@ -197,7 +197,27 @@ class _SignUpFormState extends State<SignUpForm> {
   }
 }
 
-Future signup(email, password, username) async {
+void _showPopupMessage(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("Great !"),
+        content: Text("Your account have been created!"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text("OK"),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future signup(email, password, username, context) async {
   final response = await http.post(
     Uri.parse('http://localhost:9090/user'),
     headers: <String, String>{
@@ -211,6 +231,7 @@ Future signup(email, password, username) async {
   );
 
   if (response.statusCode == 200) {
+    _showPopupMessage(context);
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
   } else {
