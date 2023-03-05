@@ -6,7 +6,7 @@ import 'package:pim/components/coustom_bottom_nav_bar.dart';
 import 'package:pim/enums.dart';
 import 'package:pim/screens/forgot_password/components/body.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import '../../models/Product.dart';
 import '../../models/Wishlist.dart';
 import '../../models/user.dart';
 
@@ -17,8 +17,9 @@ class WishlistScreen extends StatefulWidget {
 }
 
 class _WishlistScreenState extends State<WishlistScreen> {
-  List<Product> _products = [];
+  List<Productw> _products = [];
   String? id = user?.id;
+  String? productId = product?.id;
   @override
   void initState() {
     super.initState();
@@ -43,7 +44,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
 
       if (response.statusCode == 200) {
         final wishlist = wishlistFromJson(response.body);
-        final List<Product> productList = wishlist.products.toList();
+        final List<Productw> productList = wishlist.products.toList();
 
         print(productList);
         setState(() {
@@ -52,6 +53,18 @@ class _WishlistScreenState extends State<WishlistScreen> {
       } else {
         throw Exception('Failed to fetch products');
       }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> _deleteProduct(id, productId) async {
+    try {
+      final url = Uri.parse('http://localhost:9090/wishlist/deletewish');
+      final response = await http.delete(url, body: {
+        'userId': id,
+        'productId': productId,
+      });
     } catch (e) {
       print(e);
     }
@@ -83,6 +96,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // product information
                     Expanded(
                       child: Padding(
                         padding: EdgeInsets.all(10.0),
@@ -116,6 +130,17 @@ class _WishlistScreenState extends State<WishlistScreen> {
                         ),
                       ),
                     ),
+                    // delete button
+                    IconButton(
+                      icon: Icon(Icons.delete_rounded, color: Colors.red),
+                      onPressed: () {
+                        _deleteProduct(user?.id, product.id);
+                        setState(() {
+                          _products.remove(product);
+                        });
+                      },
+                    ),
+                    // product image
                     Container(
                       width: 120.0,
                       height: 120.0,

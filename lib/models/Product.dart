@@ -3,6 +3,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+Product productFromJson(String str) => Product.fromJson(json.decode(str));
+
+String userToJson(Product data) => json.encode(data.toJson());
+Product? product;
+
 class Product {
   final String id;
   final String productname;
@@ -27,7 +32,7 @@ class Product {
     this.isPopular = false,
   });
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'id': id,
       'productname': productname,

@@ -8,6 +8,7 @@ Wishlist wishlistFromJson(String str) => Wishlist.fromJson(json.decode(str));
 
 String wishlistToJson(Wishlist data) => json.encode(data.toJson());
 
+
 class Wishlist {
   Wishlist({
     required this.id,
@@ -18,14 +19,14 @@ class Wishlist {
 
   String id;
   List<String> user;
-  List<Product> products;
+  List<Productw> products;
   int v;
 
   factory Wishlist.fromJson(Map<String, dynamic> json) => Wishlist(
         id: json["_id"],
         user: List<String>.from(json["user"].map((x) => x)),
-        products: List<Product>.from(
-            json["products"].map((x) => Product.fromJson(x))),
+        products: List<Productw>.from(
+            json["products"].map((x) => Productw.fromJson(x))),
         v: json["__v"],
       );
 
@@ -37,8 +38,8 @@ class Wishlist {
       };
 }
 
-class Product {
-  Product({
+class Productw {
+  Productw({
     required this.id,
     required this.productname,
     required this.image,
@@ -62,7 +63,7 @@ class Product {
   DateTime updatedAt;
   int v;
 
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
+  factory Productw.fromJson(Map<String, dynamic> json) => Productw(
         id: json["_id"],
         productname: json["productname"],
         image: json["image"],
