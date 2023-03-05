@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pim/screens/WishList/Wish_Screen.dart';
+import 'package:pim/screens/WishList/WishScreen.dart';
 import 'package:pim/screens/home/home_screen.dart';
 import 'package:pim/screens/profile/profile_screen.dart';
-
 import '../constants.dart';
 import '../enums.dart';
+
 
 class CustomBottomNavBar extends StatelessWidget {
   const CustomBottomNavBar({
@@ -52,7 +52,7 @@ class CustomBottomNavBar extends StatelessWidget {
               IconButton(
                 icon: SvgPicture.asset("assets/icons/Heart Icon.svg"),
                 onPressed: () =>
-                    Navigator.pushNamed(context, WishListScreen.routeName),
+                    Navigator.pushNamed(context, WishlistScreen.routeName),
               ),
               IconButton(
                 icon: SvgPicture.asset("assets/icons/Chat bubble Icon.svg"),

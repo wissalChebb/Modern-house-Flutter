@@ -10,6 +10,7 @@ class Product {
   final String description;
   final int price;
   final int quantity;
+  final String category;
   final List<Color> colors;
   final bool isFavourite, isPopular;
 
@@ -21,6 +22,7 @@ class Product {
     required this.description,
     required this.price,
     required this.quantity,
+    required this.category,
     this.isFavourite = false,
     this.isPopular = false,
   });
@@ -33,6 +35,7 @@ class Product {
       'description': description,
       'quantity': quantity,
       'price': price,
+      'category': category,
     };
   }
 
@@ -44,6 +47,7 @@ class Product {
       description: json['description'],
       price: json['price'],
       quantity: json['quantity'],
+      category: json['category'],
       colors: [
         Color(0xFFF6625E),
         Color(0xFF836DB8),

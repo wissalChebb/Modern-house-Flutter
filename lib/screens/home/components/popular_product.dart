@@ -81,8 +81,8 @@ class _PopularProducts extends State<PopularProducts> {
                     children: [
                       AspectRatio(
                         aspectRatio: 1.02,
-                        /*child: Image.network(
-                            "http://localhost:9090/img/" + product.image),*/
+                        child: Image.network(
+                            "http://localhost:9090/img/" + product.image),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(

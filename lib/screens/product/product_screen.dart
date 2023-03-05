@@ -51,11 +51,11 @@ class _ProductListScreenState extends State<ProductListScreen> {
           backgroundColor: Colors.orange,
           title: Text(
             'Our Product',
-            style: TextStyle(fontWeight: FontWeight.bold,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
           ),
-          
         ),
         body: ListView.builder(
           itemCount: _products.length,
