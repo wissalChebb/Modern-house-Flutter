@@ -61,12 +61,79 @@ class _ProductListScreenState extends State<ProductListScreen> {
           itemCount: _products.length,
           itemBuilder: (context, index) {
             final product = _products[index];
-            return ListTile(
-              title: Text(product.productname),
-              subtitle: Text(product.description),
-              leading:
-                  Image.network("http://localhost:9090/img/" + product.image),
-              trailing: Text('\$${product.price.toStringAsFixed(2)}'),
+            return Container(
+              padding: EdgeInsets.all(16.0),
+              margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Color.fromARGB(255, 85, 77, 77),
+                ),
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+              child: Row(
+                children: [
+                  Image.network(
+                    "http://localhost:9090/img/" + product.image,
+                    width: 80.0,
+                    height: 80.0,
+                    fit: BoxFit.cover,
+                  ),
+                  SizedBox(width: 16.0),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          product.productname,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.0,
+                          ),
+                        ),
+                        Text(
+                          product.description,
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '\$${product.price.toStringAsFixed(2)}',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0,
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    // Add to cart action
+                                  },
+                                  icon: Icon(Icons.add_shopping_cart),
+                                  color: Colors.orange,
+                                ),
+                                SizedBox(width: 8.0),
+                                IconButton(
+                                  onPressed: () {
+                                    // Add to favourite action
+                                  },
+                                  icon: Icon(Icons.favorite_border),
+                                  color: Colors.orange,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             );
           },
         ),
