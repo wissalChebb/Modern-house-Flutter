@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:pim/components/coustom_bottom_nav_bar.dart';
 import 'package:pim/models/Product.dart'; // assuming that you have defined the Product class
 import 'package:pim/enums.dart';
+import 'package:pim/models/user.dart';
 
 class ProductListScreen extends StatefulWidget {
   static String routeName = "/produit";
@@ -13,7 +14,8 @@ class ProductListScreen extends StatefulWidget {
 
 class _ProductListScreenState extends State<ProductListScreen> {
   List<Product> _products = [];
-
+  String? id = user?.id;
+  String? productId = product?.id;
   @override
   void initState() {
     super.initState();
@@ -37,6 +39,18 @@ class _ProductListScreenState extends State<ProductListScreen> {
       } else {
         throw Exception('Failed to fetch products');
       }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> _addToWishlist(id, productId) async {
+    try {
+      final url = Uri.parse('http://localhost:9090/wishlist/addwish');
+      final response = await http.post(url, body: {
+        'idproduct': productId,
+        'idUser': id,
+      });
     } catch (e) {
       print(e);
     }
@@ -120,7 +134,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                 SizedBox(width: 8.0),
                                 IconButton(
                                   onPressed: () {
-                                    // Add to favourite action
+                                    _addToWishlist(user?.id, product.id);
                                   },
                                   icon: Icon(Icons.favorite_border),
                                   color: Colors.orange,

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pim/screens/WishList/WishScreen.dart';
 import 'package:pim/screens/home/home_screen.dart';
+import 'package:pim/screens/product/product_screen.dart';
 import 'package:pim/screens/profile/profile_screen.dart';
 import '../constants.dart';
 import '../enums.dart';
-
 
 class CustomBottomNavBar extends StatelessWidget {
   const CustomBottomNavBar({
@@ -48,6 +48,16 @@ class CustomBottomNavBar extends StatelessWidget {
                 ),
                 onPressed: () =>
                     Navigator.pushNamed(context, HomeScreen.routeName),
+              ),
+              IconButton(
+                icon: SvgPicture.asset(
+                  "assets/icons/Shop Icon.svg",
+                  color: MenuState.home == selectedMenu
+                      ? kPrimaryColor
+                      : inActiveIconColor,
+                ),
+                onPressed: () =>
+                    Navigator.pushNamed(context, ProductListScreen.routeName),
               ),
               IconButton(
                 icon: SvgPicture.asset("assets/icons/Heart Icon.svg"),
