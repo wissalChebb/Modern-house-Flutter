@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pim/components/default_button.dart';
+import 'package:pim/components/global_repos.dart';
 import 'package:pim/models/Product.dart';
 import 'package:pim/size_config.dart';
 
@@ -42,7 +43,9 @@ class Body extends StatelessWidget {
                         ),
                         child: DefaultButton(
                           text: "Add To Cart",
-                          press: () {},
+                          press: () {
+                            cart_repo.addToCart(product, 1);
+                          },
                         ),
                       ),
                     ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pim/components/default_button.dart';
+import 'package:pim/components/global_repos.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -60,29 +61,34 @@ class CheckoutCard extends StatelessWidget {
               ],
             ),
             SizedBox(height: getProportionateScreenHeight(20)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text.rich(
-                  TextSpan(
-                    text: "Total:\n",
+            StreamBuilder(
+                stream: cart_repo.CartData,
+                builder: (context, snapshot) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      TextSpan(
-                        text: "\$337.15",
-                        style: TextStyle(fontSize: 16, color: Colors.black),
+                      Text.rich(
+                        TextSpan(
+                          text: "Total:\n",
+                          children: [
+                            TextSpan(
+                              text: "\$ ${cart_repo.totalCartPrice}",
+                              style:
+                                  TextStyle(fontSize: 16, color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: getProportionateScreenWidth(190),
+                        child: DefaultButton(
+                          text: "Check Out",
+                          press: () {},
+                        ),
                       ),
                     ],
-                  ),
-                ),
-                SizedBox(
-                  width: getProportionateScreenWidth(190),
-                  child: DefaultButton(
-                    text: "Check Out",
-                    press: () {},
-                  ),
-                ),
-              ],
-            ),
+                  );
+                }),
           ],
         ),
       ),

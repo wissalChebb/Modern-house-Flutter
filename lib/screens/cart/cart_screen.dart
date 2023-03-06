@@ -1,4 +1,7 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
+import 'package:pim/components/global_repos.dart';
 import 'package:pim/models/Cart.dart';
 
 import 'components/body.dart';
@@ -17,17 +20,23 @@ class CartScreen extends StatelessWidget {
 
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
-      title: Column(
-        children: [
-          Text(
-            "Your Cart",
-            style: TextStyle(color: Colors.black),
-          ),
-          Text(
-            "${demoCarts.length} items",
-            style: Theme.of(context).textTheme.caption,
-          ),
-        ],
+      title: StreamBuilder<UnmodifiableListView<Cart>>(
+        stream: cart_repo.CartData,
+        initialData: UnmodifiableListView([]),
+        builder: (context, snapshot) {
+          return Column(
+            children: [
+              Text(
+                "Your Cart",
+                style: TextStyle(color: Colors.black),
+              ),
+              Text(
+                "${snapshot.data!.length} items",
+                style: Theme.of(context).textTheme.caption,
+              ),
+            ],
+          );
+        },
       ),
     );
   }
