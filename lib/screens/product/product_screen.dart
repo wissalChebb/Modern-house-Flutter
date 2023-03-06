@@ -16,6 +16,16 @@ class _ProductListScreenState extends State<ProductListScreen> {
   List<Product> _products = [];
   String? id = user?.id;
   String? productId = product?.id;
+  List<String> _categories = [
+    'seramic',
+    'flooring',
+    'electrical',
+    'kitchen',
+    'lighting',
+    'masonry',
+    'paints',
+    'walls',
+  ];
   @override
   void initState() {
     super.initState();
@@ -50,6 +60,17 @@ class _ProductListScreenState extends State<ProductListScreen> {
       final response = await http.post(url, body: {
         'idproduct': productId,
         'idUser': id,
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void _sortProductsByCategory(String category) async {
+    try {
+      final url = Uri.parse('http://localhost:9090/produit/getbycategory');
+      final response = await http.post(url, body: {
+        'category': category,
       });
     } catch (e) {
       print(e);
