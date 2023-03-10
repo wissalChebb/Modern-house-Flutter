@@ -110,7 +110,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
         setState(() {
           _productss = productList;
           // Create a list of wishlist product IDs
-          wishlistIds = productList.map((product) => product.id!).toList();
+          wishlistIds = productList.map((product) => product.id).toList();
         });
       } else {
         throw Exception('Failed to fetch products');
