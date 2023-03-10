@@ -14,6 +14,12 @@ class ProductListScreen extends StatefulWidget {
   _ProductListScreenState createState() => _ProductListScreenState();
 }
 
+enum SortBy {
+  priceAscending,
+  priceDescending,
+  alphabetical,
+}
+
 class _ProductListScreenState extends State<ProductListScreen> {
   List<Product> _products = [];
   List<String> wishlistIds = [];
@@ -120,6 +126,24 @@ class _ProductListScreenState extends State<ProductListScreen> {
     }
   }
 
+  SortBy _sortBy = SortBy.priceAscending;
+
+  void _sortProducts() {
+    switch (_sortBy) {
+      case SortBy.priceAscending:
+        _products.sort((a, b) => a.price.compareTo(b.price));
+        break;
+      case SortBy.priceDescending:
+        _products.sort((a, b) => b.price.compareTo(a.price));
+        break;
+      case SortBy.alphabetical:
+        _products.sort((a, b) => a.productname.compareTo(b.productname));
+        break;
+      default:
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -134,6 +158,30 @@ class _ProductListScreenState extends State<ProductListScreen> {
               color: Colors.white,
             ),
           ),
+          actions: [
+            PopupMenuButton<SortBy>(
+              onSelected: (SortBy result) {
+                setState(() {
+                  _sortBy = result;
+                  _sortProducts();
+                });
+              },
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<SortBy>>[
+                const PopupMenuItem<SortBy>(
+                  value: SortBy.priceAscending,
+                  child: Text('Sort by price (asc)'),
+                ),
+                const PopupMenuItem<SortBy>(
+                  value: SortBy.priceDescending,
+                  child: Text('Sort by price (desc)'),
+                ),
+                const PopupMenuItem<SortBy>(
+                  value: SortBy.alphabetical,
+                  child: Text('Sort alphabetical (A-Z)'),
+                ),
+              ],
+            ),
+          ],
         ),
         body: ListView.builder(
           itemCount: _products.length,
