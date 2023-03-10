@@ -5,6 +5,8 @@ import 'package:pim/components/coustom_bottom_nav_bar.dart';
 import 'package:pim/models/Product.dart'; // assuming that you have defined the Product class
 import 'package:pim/enums.dart';
 import 'package:pim/models/user.dart';
+import 'package:pim/screens/WishList/WishScreen.dart';
+import 'package:pim/models/Wishlist.dart';
 
 class ProductListScreen extends StatefulWidget {
   static String routeName = "/produit";
@@ -14,6 +16,8 @@ class ProductListScreen extends StatefulWidget {
 
 class _ProductListScreenState extends State<ProductListScreen> {
   List<Product> _products = [];
+  List<String> wishlistIds = [];
+  List<Productw> _productss = [];
   String? id = user?.id;
   String? productId = product?.id;
   List<String> _categories = [
@@ -30,6 +34,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
   void initState() {
     super.initState();
     _fetchProducts();
+    _fetchProductswish(id);
   }
 
   Future<void> _fetchProducts() async {
@@ -61,6 +66,13 @@ class _ProductListScreenState extends State<ProductListScreen> {
         'idproduct': productId,
         'idUser': id,
       });
+
+      if (response.statusCode == 200) {
+        setState(() {
+          // Add the product ID to the wishlist list
+          wishlistIds.add(productId);
+        });
+      }
     } catch (e) {
       print(e);
     }
@@ -72,6 +84,37 @@ class _ProductListScreenState extends State<ProductListScreen> {
       final response = await http.post(url, body: {
         'category': category,
       });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future _fetchProductswish(id) async {
+    try {
+      final response = await http.post(
+        Uri.parse('http://localhost:9090/wishlist/getwishid'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Charset': 'utf-8'
+        },
+        body: jsonEncode(<String, String>{
+          'idUser': id,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final wishlist = wishlistFromJson(response.body);
+        final List<Productw> productList = wishlist.products.toList();
+
+        print(productList);
+        setState(() {
+          _productss = productList;
+          // Create a list of wishlist product IDs
+          wishlistIds = productList.map((product) => product.id!).toList();
+        });
+      } else {
+        throw Exception('Failed to fetch products');
+      }
     } catch (e) {
       print(e);
     }
@@ -158,7 +201,9 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                     _addToWishlist(user?.id, product.id);
                                   },
                                   icon: Icon(Icons.favorite_border),
-                                  color: Colors.orange,
+                                  color: wishlistIds.contains(product.id)
+                                      ? Colors.orange
+                                      : Colors.grey,
                                 ),
                               ],
                             ),
