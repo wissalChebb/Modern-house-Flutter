@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:pim/components/coustom_bottom_nav_bar.dart';
 import 'package:pim/models/Product.dart'; // assuming that you have defined the Product class
 import 'package:pim/enums.dart';
@@ -21,18 +22,26 @@ enum SortBy {
 }
 
 class _ProductListScreenState extends State<ProductListScreen> {
+  final TextEditingController _searchController = TextEditingController();
   List<Product> _products = [];
   List<String> wishlistIds = [];
   List<Productw> _productss = [];
   String? id = user?.id;
   String? productId = product?.id;
   late String _selectedCategory;
+  String _searchQuery = '';
   @override
   void initState() {
     super.initState();
     _fetchProducts();
     _fetchProductswish(id);
     _selectedCategory = 'All';
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   Future<void> _fetchProducts() async {
@@ -149,6 +158,18 @@ class _ProductListScreenState extends State<ProductListScreen> {
     }
   }
 
+  List<Product> get _filteredProducts {
+    if (_searchQuery.isEmpty) {
+      return _products;
+    } else {
+      return _products
+          .where((product) => product.productname
+              .toLowerCase()
+              .contains(_searchQuery.toLowerCase()))
+          .toList();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -217,87 +238,124 @@ class _ProductListScreenState extends State<ProductListScreen> {
             ),
           ],
         ),
-        body: ListView.builder(
-          itemCount: _products.length,
-          itemBuilder: (context, index) {
-            final product = _products[index];
-            return Container(
-              padding: EdgeInsets.all(16.0),
-              margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Color.fromARGB(255, 85, 77, 77),
-                ),
-                borderRadius: BorderRadius.circular(16.0),
-              ),
-              child: Row(
-                children: [
-                  Image.network(
-                    "http://localhost:9090/img/" + product.image,
-                    width: 80.0,
-                    height: 80.0,
-                    fit: BoxFit.cover,
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TextField(
+                controller: _searchController,
+                decoration: InputDecoration(
+                  hintText: 'Search products by name',
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      // Clear the search field
+                      _searchController.clear();
+                    },
+                    icon: Icon(Icons.clear),
                   ),
-                  SizedBox(width: 16.0),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    _searchQuery = value;
+                  });
+                  // Filter the products based on the search query
+                },
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: _searchQuery.isNotEmpty
+                    ? _filteredProducts.length
+                    : _products.length,
+                itemBuilder: (context, index) {
+                  final product = _searchQuery.isNotEmpty
+                      ? _filteredProducts[index]
+                      : _products[index];
+                  return Container(
+                    padding: EdgeInsets.all(16.0),
+                    margin:
+                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color.fromARGB(255, 85, 77, 77),
+                      ),
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                    child: Row(
                       children: [
-                        Text(
-                          product.productname,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0,
-                          ),
+                        Image.network(
+                          "http://localhost:9090/img/" + product.image,
+                          width: 80.0,
+                          height: 80.0,
+                          fit: BoxFit.cover,
                         ),
-                        Text(
-                          product.description,
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            color: Colors.grey[600],
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '\$${product.price.toStringAsFixed(2)}',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18.0,
+                        SizedBox(width: 16.0),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                product.productname,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18.0,
+                                ),
                               ),
-                            ),
-                            Row(
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    // Add to cart action
-                                  },
-                                  icon: Icon(Icons.add_shopping_cart),
-                                  color: Colors.orange,
+                              Text(
+                                product.description,
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: Colors.grey[600],
                                 ),
-                                SizedBox(width: 8.0),
-                                IconButton(
-                                  onPressed: () {
-                                    _addToWishlist(user?.id, product.id);
-                                  },
-                                  icon: Icon(Icons.favorite_border),
-                                  color: wishlistIds.contains(product.id)
-                                      ? Colors.orange
-                                      : Colors.grey,
-                                ),
-                              ],
-                            ),
-                          ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    '\$${product.price.toStringAsFixed(2)}',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18.0,
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          // Add to cart action
+                                        },
+                                        icon: Icon(Icons.add_shopping_cart),
+                                        color: Colors.orange,
+                                      ),
+                                      SizedBox(width: 8.0),
+                                      IconButton(
+                                        onPressed: () {
+                                          _addToWishlist(user?.id, product.id);
+                                        },
+                                        icon: Icon(Icons.favorite_border),
+                                        color: wishlistIds.contains(product.id)
+                                            ? Colors.orange
+                                            : Colors.grey,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                ],
+                  );
+                },
               ),
-            );
-          },
+            ),
+          ],
         ),
         bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.home),
       ),
