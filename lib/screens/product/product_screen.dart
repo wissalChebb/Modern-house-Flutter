@@ -26,21 +26,13 @@ class _ProductListScreenState extends State<ProductListScreen> {
   List<Productw> _productss = [];
   String? id = user?.id;
   String? productId = product?.id;
-  List<String> _categories = [
-    'seramic',
-    'flooring',
-    'electrical',
-    'kitchen',
-    'lighting',
-    'masonry',
-    'paints',
-    'walls',
-  ];
+  late String _selectedCategory;
   @override
   void initState() {
     super.initState();
     _fetchProducts();
     _fetchProductswish(id);
+    _selectedCategory = 'All';
   }
 
   Future<void> _fetchProducts() async {
@@ -90,6 +82,19 @@ class _ProductListScreenState extends State<ProductListScreen> {
       final response = await http.post(url, body: {
         'category': category,
       });
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonList = jsonDecode(response.body);
+        final List<Product> productsByCategory =
+            jsonList.map((json) => Product.fromJson(json)).toList();
+
+        setState(() {
+          _products = productsByCategory;
+          _selectedCategory = category; // Update the selected category
+        });
+      } else {
+        throw Exception('Failed to fetch products by category');
+      }
     } catch (e) {
       print(e);
     }
@@ -159,6 +164,35 @@ class _ProductListScreenState extends State<ProductListScreen> {
             ),
           ),
           actions: [
+            DropdownButton<String>(
+              value: _selectedCategory,
+              onChanged: (String? newValue) {
+                if (newValue != null) {
+                  if (newValue == 'All') {
+                    _fetchProducts(); // Fetch all products if 'All' is selected
+                  } else {
+                    _sortProductsByCategory(
+                        newValue); // Sort products by the selected category
+                  }
+                }
+              },
+              items: <String>[
+                'All',
+                'seramic',
+                'flooring',
+                'electrical',
+                'kitchen',
+                'lighting',
+                'masonry',
+                'paints',
+                'walls'
+              ].map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
             PopupMenuButton<SortBy>(
               onSelected: (SortBy result) {
                 setState(() {
