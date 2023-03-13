@@ -83,7 +83,12 @@ class CheckoutCard extends StatelessWidget {
                         width: getProportionateScreenWidth(190),
                         child: DefaultButton(
                           text: "Check Out",
-                          press: () {},
+                          press: () {
+                            if(snapshot.data!.isNotEmpty){
+                              apiData.createPaymentRequest(context);
+                            }
+
+                          },
                         ),
                       ),
                     ],

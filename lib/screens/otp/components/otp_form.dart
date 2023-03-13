@@ -127,7 +127,7 @@ class _OtpFormState extends State<OtpForm> {
 
 Future checkcode(context, value, email) async {
   final response = await http.post(
-    Uri.parse('http://localhost:9090/user/resetpassword'),
+    Uri.parse('http://192.168.1.122:9090/user/resetpassword'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

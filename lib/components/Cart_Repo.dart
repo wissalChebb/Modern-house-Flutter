@@ -22,6 +22,11 @@ class Cart_Repo {
     _cartSubject.add(UnmodifiableListView(_cardData));
   }
 
+  void clearCart(){
+    _cardData.clear();
+    _cartSubject.add(UnmodifiableListView(_cardData));
+  }
+
   _totalPrice() {
     int total = 0;
     _cardData.forEach((element) {

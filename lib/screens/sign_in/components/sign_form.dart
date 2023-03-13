@@ -185,7 +185,7 @@ Future signin(context, email, password) async {
   final prefs = await SharedPreferences.getInstance();
 
   final response = await http.put(
-    Uri.parse('http://localhost:9090/user'),
+    Uri.parse('http://192.168.1.122:9090/user'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -194,7 +194,7 @@ Future signin(context, email, password) async {
       'password': password,
     }),
   );
-
+  print(response.body);
   if (response.statusCode == 200) {
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
