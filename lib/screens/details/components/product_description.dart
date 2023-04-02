@@ -33,7 +33,7 @@ class ProductDescription extends StatelessWidget {
                 product.title!,
                 style: Theme.of(context).textTheme.headline6,
               ),
-              Rating()
+              // Rating()
             ],
           ),
         ),
@@ -80,7 +80,7 @@ class ProductDescription extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  "See More Detail",
+                  "Add Review",
                   style: TextStyle(
                       fontWeight: FontWeight.w600, color: kPrimaryColor),
                 ),

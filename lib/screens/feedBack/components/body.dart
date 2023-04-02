@@ -46,14 +46,14 @@ class _BodyState extends State<Body> {
                         width: 30,
                       ),
                       Text(
-                        "esm user",
+                        " User Name",
                         style: TextStyle(fontSize: 20),
                       ),
                     ],
                   ),
                 ),
                 SizedBox(
-                  height: 60,
+                  height: 10,
                 ),
                 Divider(
                   color: Colors.black87,
@@ -78,7 +78,7 @@ class _BodyState extends State<Body> {
                           "Product Name",
                           style: TextStyle(fontSize: 20),
                         ),
-                        Rating()
+                        // Rating()
                       ],
                     )
                   ],
@@ -130,6 +130,9 @@ class _BodyState extends State<Body> {
                     // Cette fonction est appelée à chaque fois que le texte est modifié
                     print('Nouveau texte: $text');
                   },
+                ),
+                SizedBox(
+                  height: 10,
                 ),
                 Divider(
                   color: Colors.black87,
