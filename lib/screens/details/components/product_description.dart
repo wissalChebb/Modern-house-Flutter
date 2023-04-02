@@ -75,7 +75,13 @@ class ProductDescription extends StatelessWidget {
           ),
           child: GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, FeedBackScreen.routeName);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => FeedBackScreen(
+                            product_name: product.title!,
+                            product_id: product.id!,
+                          )));
             },
             child: Row(
               children: [

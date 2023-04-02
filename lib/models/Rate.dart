@@ -14,7 +14,7 @@ class Rate {
   Rate.fromJson(dynamic json) {
     id = json['_id'];
     productId = json['product_id'];
-    rate = json['rate'];
+    rate = double.parse(json['rate'].toString());
     feedback = json['feedback'];
     user = json['user'] != null ? json['user']['username'] : "";
     createdAt = json['createdAt'];
@@ -22,7 +22,7 @@ class Rate {
   }
   String? id;
   String? productId;
-  int? rate;
+  double? rate;
   String? feedback;
   String? user;
   String? createdAt;

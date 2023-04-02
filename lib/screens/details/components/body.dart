@@ -137,7 +137,8 @@ class Reviews extends StatelessWidget {
               ],
             ),
             Rating(
-              rate: rate!.rate!,
+              rate: double.parse(rate!.rate!.toString()),
+              rateValue: (_) {},
             ),
             Text("${rate!.feedback}"),
           ],
@@ -148,8 +149,9 @@ class Reviews extends StatelessWidget {
 }
 
 class Rating extends StatefulWidget {
-  final int rate;
-  Rating({super.key, required this.rate});
+  final double? rate;
+  ValueChanged<double>? rateValue;
+  Rating({super.key, this.rate, this.rateValue});
 
   @override
   State<Rating> createState() => _RatingState();
@@ -173,6 +175,7 @@ class _RatingState extends State<Rating> {
           color: Colors.amber,
         ),
         onRatingUpdate: (rating) {
+          widget.rateValue!(rating);
           print(rating);
         },
       ),

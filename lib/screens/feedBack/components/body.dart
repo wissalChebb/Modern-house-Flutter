@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:pim/components/default_button.dart';
+import 'package:pim/components/global_repos.dart';
+import 'package:pim/models/user.dart';
 import 'package:pim/screens/details/components/body.dart';
 
 class Body extends StatefulWidget {
-  const Body({super.key});
+  final String product_id;
+  final String product_name;
+  Body({super.key, required this.product_id, required this.product_name});
 
   @override
   State<Body> createState() => _BodyState();
 }
 
 class _BodyState extends State<Body> {
+  TextEditingController title = new TextEditingController();
+  TextEditingController feedback = new TextEditingController();
+  double rate = 3;
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
@@ -46,7 +53,7 @@ class _BodyState extends State<Body> {
                         width: 30,
                       ),
                       Text(
-                        " User Name",
+                        " ${user!.username}",
                         style: TextStyle(fontSize: 20),
                       ),
                     ],
@@ -75,10 +82,17 @@ class _BodyState extends State<Body> {
                     Column(
                       children: [
                         Text(
-                          "Product Name",
+                          "${widget.product_name}",
                           style: TextStyle(fontSize: 20),
                         ),
-                        // Rating()
+                        Rating(
+                          rate: rate,
+                          rateValue: (newValue) {
+                            setState(() {
+                              rate = newValue;
+                            });
+                          },
+                        )
                       ],
                     )
                   ],
@@ -97,6 +111,7 @@ class _BodyState extends State<Body> {
                   height: 40,
                 ),
                 TextField(
+                  controller: title,
                   decoration: InputDecoration(
                     hintText:
                         'What is the most important thing to know about a product?',
@@ -119,6 +134,7 @@ class _BodyState extends State<Body> {
                   style: TextStyle(color: Colors.deepOrange, fontSize: 30),
                 ),
                 TextField(
+                  controller: feedback,
                   maxLines: 5,
                   decoration: InputDecoration(
                     hintText:
@@ -143,7 +159,14 @@ class _BodyState extends State<Body> {
                 DefaultButton(
                   text: "Share Review",
                   press: () {
-                    //Navigator.pushNamed(context, HomeScreen.routeName);
+                    apiData.addRate(
+                        product_id: widget.product_id,
+                        rate: rate,
+                        feedback: "${title.text} -- ${feedback.text}",
+                        onDone: () {
+                          apiData.getProductRates(widget.product_id);
+                          Navigator.pop(context);
+                        });
                   },
                 )
               ],

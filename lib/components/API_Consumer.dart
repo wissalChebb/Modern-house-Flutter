@@ -36,6 +36,19 @@ class API_Consumer {
     _productRatesSubject.add(UnmodifiableListView(_product_rates));
   }
 
+  Future<Null> addRate(
+      {product_id, rate, feedback, VoidCallback? onDone}) async {
+    Response response =
+        await post(Uri.parse(Api_Routes.add_product_rating), body: {
+      "product_id": product_id,
+      "rate": rate.toString(),
+      "feedback": feedback,
+      "idUser": user!.id
+    });
+    print(response.body);
+    response.statusCode == 200 ? onDone!() : null;
+  }
+
   Future<Null> getAllProducts() async {
     Response response = await get(Uri.parse(Api_Routes.get_all_products));
 
