@@ -3,6 +3,7 @@ import 'package:pim/screens/cart/cart_screen.dart';
 import 'package:pim/screens/change_password/change_password.dart';
 import 'package:pim/screens/complete_profile/complete_profile_screen.dart';
 import 'package:pim/screens/details/details_screen.dart';
+import 'package:pim/screens/feedBack/feedBack_screen.dart';
 import 'package:pim/screens/forgot_password/forgot_password_screen.dart';
 import 'package:pim/screens/home/home_screen.dart';
 import 'package:pim/screens/login_success/login_success_screen.dart';
@@ -26,4 +27,5 @@ final Map<String, WidgetBuilder> routes = {
   DetailsScreen.routeName: (context) => DetailsScreen(),
   CartScreen.routeName: (context) => CartScreen(),
   ProfileScreen.routeName: (context) => ProfileScreen(),
+  FeedBackScreen.routeName: (context) => FeedBackScreen(),
 };

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:pim/components/default_button.dart';
+
 import 'package:pim/components/global_repos.dart';
 import 'package:pim/models/Product.dart';
 import 'package:pim/size_config.dart';
@@ -42,11 +43,16 @@ class Body extends StatelessWidget {
                           bottom: getProportionateScreenWidth(40),
                           top: getProportionateScreenWidth(15),
                         ),
-                        child: DefaultButton(
-                          text: "Add To Cart",
-                          press: () {
-                            cart_repo.addToCart(product, 1);
-                          },
+                        child: Column(
+                          children: [
+                            DefaultButton(
+                              text: "Add To Cart",
+                              press: () {
+                                cart_repo.addToCart(product, 1);
+                              },
+                            ),
+                            // FeedBackCard()
+                          ],
                         ),
                       ),
                     ),

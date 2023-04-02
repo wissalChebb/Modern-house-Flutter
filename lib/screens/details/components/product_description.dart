@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pim/models/Product.dart';
 import 'package:pim/screens/details/components/body.dart';
+import 'package:pim/screens/feedBack/feedBack_screen.dart';
+import 'package:pim/screens/login_success/login_success_screen.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -72,7 +74,9 @@ class ProductDescription extends StatelessWidget {
             vertical: 10,
           ),
           child: GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, FeedBackScreen.routeName);
+            },
             child: Row(
               children: [
                 Text(
