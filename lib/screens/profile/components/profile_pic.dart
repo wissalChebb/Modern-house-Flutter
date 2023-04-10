@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../models/user.dart';
+
 class ProfilePic extends StatelessWidget {
   const ProfilePic({
     Key? key,
@@ -8,6 +10,14 @@ class ProfilePic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String? img = user?.image;
+    String? url = "";
+    if (img != "") {
+      url = 'http://localhost:9090/img/' + img!;
+    } else {
+      url =
+          "https://images.pexels.com/photos/3307758/pexels-photo-3307758.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250";
+    }
     return SizedBox(
       height: 115,
       width: 115,
@@ -16,7 +26,7 @@ class ProfilePic extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           CircleAvatar(
-            backgroundImage: AssetImage("assets/images/Profile Image.png"),
+            backgroundImage: NetworkImage(url),
           ),
           Positioned(
             right: -16,

@@ -65,16 +65,6 @@ class CustomBottomNavBar extends StatelessWidget {
                             context, ModalRoute.withName('/home'));
                       })),
               IconButton(
-                  icon: SvgPicture.asset("assets/icons/Heart Icon.svg"),
-                  onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => WishlistScreen()),
-                      ).then((value) {
-                        Navigator.popUntil(
-                            context, ModalRoute.withName('/home'));
-                      })),
-              IconButton(
                 icon: SvgPicture.asset("assets/icons/Chat bubble Icon.svg"),
                 onPressed: () {},
               ),

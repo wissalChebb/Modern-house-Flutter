@@ -4,7 +4,7 @@ import 'package:pim/screens/cart/cart_screen.dart';
 import '../../../size_config.dart';
 import 'icon_btn_with_counter.dart';
 import 'search_field.dart';
-/*
+
 class HomeHeader extends StatelessWidget {
   const HomeHeader({
     Key? key,
@@ -32,4 +32,4 @@ class HomeHeader extends StatelessWidget {
       ),
     );
   }
-}*/
+}

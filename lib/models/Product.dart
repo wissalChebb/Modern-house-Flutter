@@ -12,13 +12,14 @@ class Product {
   final String id;
   final String productname;
   final String image;
+  List<String> images;
   final String description;
   final int price;
   final int quantity;
   final String category;
   final List<Color> colors;
   final bool isFavourite, isPopular;
-
+  final double rating;
   Product({
     required this.id,
     required this.productname,
@@ -28,8 +29,10 @@ class Product {
     required this.price,
     required this.quantity,
     required this.category,
+    this.images = const [],
     this.isFavourite = false,
     this.isPopular = false,
+    this.rating = 0.0,
   });
 
   Map<String, dynamic> toJson() {
@@ -48,7 +51,7 @@ class Product {
     return Product(
       id: json['_id'],
       productname: json['productname'],
-      image: json['image'],
+      image: json['image']?.toString() ?? '',
       description: json['description'],
       price: json['price'],
       quantity: json['quantity'],

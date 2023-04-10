@@ -65,7 +65,7 @@ class Body extends StatelessWidget {
 
 Future resetpwd(email) async {
   final response = await http.post(
-    Uri.parse('http://10.2.2.1:9090/user/resetpwd'),
+    Uri.parse('http://localhost:9090/user/resetpwd'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

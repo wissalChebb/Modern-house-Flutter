@@ -8,6 +8,9 @@ import 'package:pim/enums.dart';
 import 'package:pim/models/user.dart';
 import 'package:pim/screens/WishList/WishScreen.dart';
 import 'package:pim/models/Wishlist.dart';
+import 'package:pim/screens/details/details_screen.dart';
+
+import 'package:pim/constants.dart';
 
 class ProductListScreen extends StatefulWidget {
   static String routeName = "/produit";
@@ -30,6 +33,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
   String? productId = product?.id;
   late String _selectedCategory;
   String _searchQuery = '';
+  late final Product product1;
   @override
   void initState() {
     super.initState();
@@ -266,93 +270,102 @@ class _ProductListScreenState extends State<ProductListScreen> {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: _searchQuery.isNotEmpty
-                    ? _filteredProducts.length
-                    : _products.length,
-                itemBuilder: (context, index) {
-                  final product = _searchQuery.isNotEmpty
-                      ? _filteredProducts[index]
-                      : _products[index];
-                  return Container(
-                    padding: EdgeInsets.all(16.0),
-                    margin:
-                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Color.fromARGB(255, 85, 77, 77),
+              child: GestureDetector(
+                onTap: () => Navigator.pushNamed(
+                  context,
+                  DetailsScreen.routeName,
+                  arguments: ProductDetailsArguments(product: product1),
+                ),
+                child: ListView.builder(
+                  itemCount: _searchQuery.isNotEmpty
+                      ? _filteredProducts.length
+                      : _products.length,
+                  itemBuilder: (context, index) {
+                    final product = _searchQuery.isNotEmpty
+                        ? _filteredProducts[index]
+                        : _products[index];
+                    return Container(
+                      padding: EdgeInsets.all(16.0),
+                      margin:
+                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Color.fromARGB(255, 85, 77, 77),
+                        ),
+                        borderRadius: BorderRadius.circular(16.0),
                       ),
-                      borderRadius: BorderRadius.circular(16.0),
-                    ),
-                    child: Row(
-                      children: [
-                        Image.network(
-                          "http://localhost:9090/img/" + product.image,
-                          width: 80.0,
-                          height: 80.0,
-                          fit: BoxFit.cover,
-                        ),
-                        SizedBox(width: 16.0),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text(
-                                product.productname,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18.0,
-                                ),
-                              ),
-                              Text(
-                                product.description,
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Colors.grey[600],
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    '\$${product.price.toStringAsFixed(2)}',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18.0,
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      IconButton(
-                                        onPressed: () {
-                                          // Add to cart action
-                                        },
-                                        icon: Icon(Icons.add_shopping_cart),
-                                        color: Colors.orange,
-                                      ),
-                                      SizedBox(width: 8.0),
-                                      IconButton(
-                                        onPressed: () {
-                                          _addToWishlist(user?.id, product.id);
-                                        },
-                                        icon: Icon(Icons.favorite_border),
-                                        color: wishlistIds.contains(product.id)
-                                            ? Colors.orange
-                                            : Colors.grey,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
+                      child: Row(
+                        children: [
+                          Image.network(
+                            'http://localhost:9090/img/${product.image}',
+                            width: 80.0,
+                            height: 80.0,
+                            fit: BoxFit.cover,
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
+                          SizedBox(width: 16.0),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  product.productname,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18.0,
+                                  ),
+                                ),
+                                Text(
+                                  product.description,
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: Colors.grey[600],
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      '\$${product.price.toStringAsFixed(2)}',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18.0,
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        IconButton(
+                                          onPressed: () {
+                                            // Add to cart action
+                                          },
+                                          icon: Icon(Icons.add_shopping_cart),
+                                          color: Colors.orange,
+                                        ),
+                                        SizedBox(width: 8.0),
+                                        IconButton(
+                                          onPressed: () {
+                                            _addToWishlist(
+                                                user?.id, product.id);
+                                          },
+                                          icon: Icon(Icons.favorite_border),
+                                          color:
+                                              wishlistIds.contains(product.id)
+                                                  ? Colors.orange
+                                                  : Colors.grey,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
           ],
@@ -361,4 +374,10 @@ class _ProductListScreenState extends State<ProductListScreen> {
       ),
     );
   }
+}
+
+class ProductDetailsArguments {
+  final Product product;
+
+  ProductDetailsArguments({required this.product});
 }

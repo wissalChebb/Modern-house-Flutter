@@ -61,7 +61,7 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
   }
 
   List<String> errors = [];
-  String? email ;
+  String? email;
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -71,7 +71,6 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
           TextFormField(
             keyboardType: TextInputType.emailAddress,
             controller: myController,
-            
             onChanged: (value) {
               if (value.isNotEmpty && errors.contains(kEmailNullError)) {
                 setState(() {
@@ -113,19 +112,16 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
           DefaultButton(
             text: "Continue",
             press: () {
-             if (_formKey.currentState!.validate()) {
-              resetpwd(myController.text);
+              if (_formKey.currentState!.validate()) {
+                resetpwd(myController.text);
                 // Do what you want to do
-                Navigator.push(context,
-                 MaterialPageRoute(
-                  builder: (context) => 
-                  OtpScreen(email:myController.text),
-                  ), 
-                 
-                 
-                    );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OtpScreen(email: myController.text),
+                  ),
+                );
               }
-              
             },
           ),
           SizedBox(height: SizeConfig.screenHeight * 0.1),
@@ -136,31 +132,23 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
   }
 }
 
-
-
-
-Future resetpwd(email)async {
+Future resetpwd(email) async {
   final response = await http.post(
-    Uri.parse('http://localhost:9090/user/resetpwd'),
+    Uri.parse('http://192.168.0.11:9090/user/resetpwd'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
-    body: jsonEncode(<String, String>{
-      'email': email
-
-    }),
+    body: jsonEncode(<String, String>{'email': email}),
   );
 
   if (response.statusCode == 200) {
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
-   
+
     print("mail sent");
-    
   } else {
     // If the server did not return a 201 CREATED response,
     // then throw an exception.
     throw Exception('Failed to create album.');
   }
-
 }

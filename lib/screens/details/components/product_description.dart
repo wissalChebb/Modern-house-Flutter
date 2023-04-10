@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pim/models/Product.dart';
+import 'package:pim/screens/details/components/body.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -23,9 +24,15 @@ class ProductDescription extends StatelessWidget {
         Padding(
           padding:
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-          child: Text(
-            product.productname,
-            style: Theme.of(context).textTheme.headline6,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                product.productname,
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              Rating()
+            ],
           ),
         ),
         Align(

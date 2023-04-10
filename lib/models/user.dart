@@ -16,6 +16,8 @@ class User {
     required this.password,
     required this.role,
     required this.verified,
+    required this.banned,
+    required this.image,
     required this.id,
     required this.createdAt,
     required this.updatedAt,
@@ -27,7 +29,9 @@ class User {
   String password;
   String role;
   bool verified;
-  String? id;
+  bool banned;
+  String image;
+  String id;
   DateTime createdAt;
   DateTime updatedAt;
   int v;
@@ -37,7 +41,9 @@ class User {
         email: json["email"],
         password: json["password"],
         role: json["role"],
+        image: json["Image"]?.toString() ?? '',
         verified: json["verified"],
+        banned: json["banned"] ?? false,
         id: json["_id"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
@@ -49,7 +55,9 @@ class User {
         "email": email,
         "password": password,
         "role": role,
+        "Image": image,
         "verified": verified,
+        "banned": banned,
         "_id": id,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),

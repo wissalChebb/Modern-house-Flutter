@@ -40,6 +40,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_svg: ^0.22.0
   provider: ^4.3.1
+  rxdart: ^0.27.7
+  flutter_rating_bar: ^4.0.1
+  webview_flutter: ^4.0.7
 
 dev_dependencies:
   flutter_test:
@@ -61,10 +64,11 @@ flutter:
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
-  uses-material-design: true
+  # uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/images/download.jpg
     - assets/images/
     - assets/icons/
    
@@ -96,3 +100,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
