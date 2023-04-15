@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:pim/components/global_repos.dart';
 import 'package:pim/models/Cart.dart';
 
+import '../../../models/Product.dart';
 import '../../../size_config.dart';
 import 'cart_card.dart';
 
