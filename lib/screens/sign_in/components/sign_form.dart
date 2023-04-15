@@ -185,7 +185,7 @@ Future signin(context, email, password) async {
   final prefs = await SharedPreferences.getInstance();
 
   final response = await http.put(
-    Uri.parse('http://192.168.1.2:9090/user'),
+    Uri.parse('http://192.168.1.6:9090/user'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

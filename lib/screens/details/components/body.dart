@@ -21,7 +21,7 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    apiData.getProductRates(product.id);
+    //apiData.getProductRates(product.id);
     return ListView(
       children: [
         ProductImages(product: product),

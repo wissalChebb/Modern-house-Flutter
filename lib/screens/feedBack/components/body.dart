@@ -164,7 +164,7 @@ class _BodyState extends State<Body> {
                         rate: rate,
                         feedback: "${title.text} -- ${feedback.text}",
                         onDone: () {
-                          apiData.getProductRates(widget.product_id);
+                          ///apiData.getProductRates(widget.product_id);
                           Navigator.pop(context);
                         });
                   },
