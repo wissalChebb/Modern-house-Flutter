@@ -149,13 +149,13 @@ class _ProductListScreenState extends State<ProductListScreen> {
   void _sortProducts() {
     switch (_sortBy) {
       case SortBy.priceAscending:
-        _products.sort((a, b) => a.price.compareTo(b.price));
+        _products.sort((a, b) => a.price!.compareTo(b.price!));
         break;
       case SortBy.priceDescending:
-        _products.sort((a, b) => b.price.compareTo(a.price));
+        _products.sort((a, b) => b.price!.compareTo(a.price!));
         break;
       case SortBy.alphabetical:
-        _products.sort((a, b) => a.productname.compareTo(b.productname));
+        _products.sort((a, b) => a.title!.compareTo(b.title!));
         break;
       default:
         break;
@@ -167,7 +167,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
       return _products;
     } else {
       return _products
-          .where((product) => product.productname
+          .where((product) => product.title!
               .toLowerCase()
               .contains(_searchQuery.toLowerCase()))
           .toList();
@@ -309,14 +309,14 @@ class _ProductListScreenState extends State<ProductListScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text(
-                                  product.productname,
+                                  product.title!,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18.0,
                                   ),
                                 ),
                                 Text(
-                                  product.description,
+                                  product.description!,
                                   style: TextStyle(
                                     fontSize: 16.0,
                                     color: Colors.grey[600],
@@ -327,7 +327,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      '\$${product.price.toStringAsFixed(2)}',
+                                      '\$${product.price!.toStringAsFixed(2)}',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18.0,

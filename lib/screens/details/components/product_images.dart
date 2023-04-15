@@ -63,7 +63,7 @@ class _ProductImagesState extends State<ProductImages> {
           border: Border.all(
               color: kPrimaryColor.withOpacity(selectedImage == index ? 1 : 0)),
         ),
-        child: Image.asset(widget.product.image),
+        child: Image.asset(widget.product.image!),
       ),
     );
   }

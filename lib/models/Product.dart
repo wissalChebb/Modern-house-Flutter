@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+Product? product;
 // class Product {
 //   final int id;
 //   final String title, description;
