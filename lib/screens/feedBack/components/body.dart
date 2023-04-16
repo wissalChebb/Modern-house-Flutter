@@ -85,14 +85,14 @@ class _BodyState extends State<Body> {
                           "${widget.product_name}",
                           style: TextStyle(fontSize: 20),
                         ),
-                        Rating(
+                        /*  Rating(
                           rate: rate,
                           rateValue: (newValue) {
                             setState(() {
                               rate = newValue;
                             });
                           },
-                        )
+                        )*/
                       ],
                     )
                   ],

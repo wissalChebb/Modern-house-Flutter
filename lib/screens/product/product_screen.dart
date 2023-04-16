@@ -167,9 +167,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
       return _products;
     } else {
       return _products
-          .where((product) => product.title!
-              .toLowerCase()
-              .contains(_searchQuery.toLowerCase()))
+          .where((product) =>
+              product.title!.toLowerCase().contains(_searchQuery.toLowerCase()))
           .toList();
     }
   }
@@ -274,7 +273,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 onTap: () => Navigator.pushNamed(
                   context,
                   DetailsScreen.routeName,
-                  arguments: ProductDetailsArguments(product: product1!), /* product empty lezem n3abiweh*/
+                  arguments: ProductDetailsArguments(
+                      product: product1!), /* product empty lezem n3abiweh*/
                 ),
                 child: ListView.builder(
                   itemCount: _searchQuery.isNotEmpty

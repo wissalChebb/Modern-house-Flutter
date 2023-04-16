@@ -69,7 +69,9 @@ class Body extends StatelessWidget {
                         style: TextStyle(fontSize: 30),
                       ),
                     ),
-                    StreamBuilder<UnmodifiableListView<Rate>>(
+                    PostWidget()
+
+                    /* StreamBuilder<UnmodifiableListView<Rate>>(
                       stream: apiData.Rates,
                       initialData: UnmodifiableListView([]),
                       builder: (context, snapshost) {
@@ -81,7 +83,7 @@ class Body extends StatelessWidget {
                               .toList(),
                         );
                       },
-                    )
+                    )*/
                   ],
                 ),
               ),
@@ -92,7 +94,7 @@ class Body extends StatelessWidget {
     );
   }
 }
-
+/*
 class Reviews extends StatelessWidget {
   final Rate? rate;
   Reviews({super.key, this.rate});
@@ -146,7 +148,8 @@ class Reviews extends StatelessWidget {
       ),
     );
   }
-}
+}*/
+/*
 
 class Rating extends StatefulWidget {
   final double? rate;
@@ -180,5 +183,146 @@ class _RatingState extends State<Rating> {
         },
       ),
     );
+  }
+}*/
+
+class PostWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(10),
+      child: Card(
+        margin: EdgeInsets.only(bottom: 20),
+        color: Colors.grey,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16.0, 14.0, 14.0, 3.0),
+              child: Row(
+                children: <Widget>[
+                  CircleAvatar(
+                    radius: 18.0,
+                    backgroundImage: AssetImage('assets/images/download.jpg'),
+                    backgroundColor: Colors.transparent,
+                  ),
+                  const SizedBox(
+                    width: 16.0,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'User name',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  GestureDetector(
+                    child: Icon(
+                      Icons.more_horiz_sharp,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+                alignment: Alignment.topLeft,
+                margin: EdgeInsets.only(left: 10),
+                child: Rating()),
+            Text(
+              "titre de probleme  ",
+              style:
+                  TextStyle(color: Colors.white, fontStyle: FontStyle.italic),
+              textAlign: TextAlign.start,
+            ),
+            Text(
+              "ghfsvhgfxh<gwxfh<gwxf<hgwxf<hgxfh<wgxfh<gxfkjhdkqshdkjsdhkqjdhqkjsdhkqsdhqkdhqkjsdhqksjdhqksjhdqkjsdhqksjdhqkjdhqkjdqhdkjqhdkqjhh  ",
+              style:
+                  TextStyle(color: Colors.white, fontStyle: FontStyle.italic),
+              textAlign: TextAlign.end,
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(4.0, 4.0, 4.0, 4.0),
+              child: Row(
+                children: <Widget>[
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.thumb_up),
+                    color: Colors.blue,
+                  ),
+                  const SizedBox(
+                    width: 4.0,
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.thumb_down),
+                    color: Colors.red,
+                  ),
+                  const SizedBox(
+                    width: 4.0,
+                  ),
+                  const SizedBox(
+                    width: 4.0,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16.0, 0.0, 0.0, 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Text(
+                    'HÁ 1 HORA',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Rating extends StatefulWidget {
+  @override
+  State<Rating> createState() => _RatingState();
+}
+
+class _RatingState extends State<Rating> {
+  @override
+  Widget build(BuildContext context) {
+    // print(widget.rate!);
+    return Padding(
+        padding: EdgeInsets.all(10),
+        child: RatingBar.builder(
+          initialRating: 3,
+          minRating: 1,
+          direction: Axis.horizontal,
+          allowHalfRating: true,
+          itemSize: 22,
+          itemCount: 5,
+          itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+          itemBuilder: (context, _) => Icon(
+            Icons.star,
+            color: Colors.amber,
+          ),
+          onRatingUpdate: (rating) {
+            print(rating);
+          },
+        ));
   }
 }

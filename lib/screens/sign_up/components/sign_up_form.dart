@@ -219,7 +219,7 @@ void _showPopupMessage(BuildContext context) {
 
 Future signup(email, password, username, context) async {
   final response = await http.post(
-    Uri.parse('http://172.16.6.170:9090/user'),
+    Uri.parse('http://192.168.1.6:9090/user'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
