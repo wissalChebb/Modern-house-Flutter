@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:pim/screens/cart/cart_screen.dart';
 import 'package:pim/screens/change_password/change_password.dart';
+import 'package:pim/screens/comands/comand_screen.dart';
 import 'package:pim/screens/complete_profile/complete_profile_screen.dart';
 import 'package:pim/screens/details/details_screen.dart';
 import 'package:pim/screens/forgot_password/forgot_password_screen.dart';
@@ -29,4 +30,5 @@ final Map<String, WidgetBuilder> routes = {
   ProfileScreen.routeName: (context) => ProfileScreen(),
   ProductListScreen.routeName: (context) => ProductListScreen(),
   WishlistScreen.routeName: (context) => WishlistScreen(),
+  ComandScreen.routeName: (context) => ComandScreen(),
 };

@@ -16,7 +16,7 @@ class Rate {
     productId = json['product_id'];
     rate = double.parse(json['rate'].toString());
     feedback = json['feedback'];
-    user = json['user'] != null ? json['user']['username'] : "";
+    user = json['user'] != null ? json['user'] : "";
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
   }
@@ -27,6 +27,7 @@ class Rate {
   String? user;
   String? createdAt;
   String? updatedAt;
+
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

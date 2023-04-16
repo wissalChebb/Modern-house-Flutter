@@ -30,9 +30,10 @@ class API_Consumer {
     _productRatesSubject.add(UnmodifiableListView([]));
     Response response = await post(Uri.parse(Api_Routes.get_product_ratings),
         body: {"product_id": product_id});
-    List<dynamic> bodyData = json.decode(response.body);
+    print(response.body);
+    Map<String,dynamic> bodyData = json.decode(response.body);
 
-    _product_rates = bodyData.map((e) => Rate.fromJson(e)).toList();
+    _product_rates = (bodyData['Ratings'] as List<dynamic>).map((e) => Rate.fromJson(e)).toList();
     _productRatesSubject.add(UnmodifiableListView(_product_rates));
   }
 
@@ -47,6 +48,12 @@ class API_Consumer {
     });
     print(response.body);
     response.statusCode == 200 ? onDone!() : null;
+  }
+
+  Future<User> getUserInfo({required String userID}) async{
+    Response respone = await get(Uri.parse(Api_Routes.user_route+userID));
+    print('data'+respone.body);
+    return User.fromJson(json.decode(respone.body));
   }
 
   Future<Null> getAllProducts() async {

@@ -1,12 +1,14 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:pim/components/default_button.dart';
 
 import 'package:pim/components/global_repos.dart';
 import 'package:pim/models/Product.dart';
 import 'package:pim/models/Rate.dart';
+import 'package:pim/models/user.dart';
 import 'package:pim/size_config.dart';
 
 import 'color_dots.dart';
@@ -21,7 +23,7 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //apiData.getProductRates(product.id);
+    apiData.getProductRates(product.id);
     return ListView(
       children: [
         ProductImages(product: product),
@@ -69,21 +71,21 @@ class Body extends StatelessWidget {
                         style: TextStyle(fontSize: 30),
                       ),
                     ),
-                    PostWidget()
-
-                    /* StreamBuilder<UnmodifiableListView<Rate>>(
+                    //PostWidget(),
+                    StreamBuilder<UnmodifiableListView<Rate>>(
                       stream: apiData.Rates,
                       initialData: UnmodifiableListView([]),
                       builder: (context, snapshost) {
                         return Column(
+                          //print(snapshost.data!);
                           children: snapshost.data!
-                              .map((e) => Reviews(
+                              .map((e) => PostWidget(
                                     rate: e,
                                   ))
                               .toList(),
                         );
                       },
-                    )*/
+                    )
                   ],
                 ),
               ),
@@ -149,7 +151,7 @@ class Reviews extends StatelessWidget {
     );
   }
 }*/
-/*
+
 
 class Rating extends StatefulWidget {
   final double? rate;
@@ -184,11 +186,38 @@ class _RatingState extends State<Rating> {
       ),
     );
   }
-}*/
+}
 
-class PostWidget extends StatelessWidget {
+
+class PostWidget extends StatefulWidget {
+  PostWidget({Key? key,required this.rate}) : super(key: key);
+  Rate rate;
+  @override
+  State<PostWidget> createState() => _PostWidgetState();
+}
+
+class _PostWidgetState extends State<PostWidget> {
+  User? user;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsFlutterBinding.ensureInitialized();
+    getUser();
+  }
+  Future<Null> getUser() async{
+    user = await apiData.getUserInfo(userID: widget.rate.user!);
+    print(user!.username);
+setState(() {
+
+});
+  }
   @override
   Widget build(BuildContext context) {
+//    SchedulerBinding.instance
+  //      .addPostFrameCallback((_) => getUser());
+    print(user!.username);
     return Padding(
       padding: EdgeInsets.all(10),
       child: Card(
@@ -205,7 +234,7 @@ class PostWidget extends StatelessWidget {
                 children: <Widget>[
                   CircleAvatar(
                     radius: 18.0,
-                    backgroundImage: AssetImage('assets/images/download.jpg'),
+                    backgroundImage: NetworkImage(user!.image),
                     backgroundColor: Colors.transparent,
                   ),
                   const SizedBox(
@@ -216,7 +245,7 @@ class PostWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'User name',
+                          '${user!.username}',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w500,
@@ -237,15 +266,15 @@ class PostWidget extends StatelessWidget {
             Container(
                 alignment: Alignment.topLeft,
                 margin: EdgeInsets.only(left: 10),
-                child: Rating()),
+                child: Rating(rate: widget.rate.rate!,)),
             Text(
-              "titre de probleme  ",
+              "${widget.rate.createdAt}",
               style:
                   TextStyle(color: Colors.white, fontStyle: FontStyle.italic),
               textAlign: TextAlign.start,
             ),
             Text(
-              "ghfsvhgfxh<gwxfh<gwxf<hgwxf<hgxfh<wgxfh<gxfkjhdkqshdkjsdhkqjdhqkjsdhkqsdhqkdhqkjsdhqksjdhqksjhdqkjsdhqksjdhqkjdhqkjdqhdkjqhdkqjhh  ",
+              "${widget.rate.feedback}",
               style:
                   TextStyle(color: Colors.white, fontStyle: FontStyle.italic),
               textAlign: TextAlign.end,
@@ -296,8 +325,9 @@ class PostWidget extends StatelessWidget {
     );
   }
 }
-
+/*
 class Rating extends StatefulWidget {
+
   @override
   State<Rating> createState() => _RatingState();
 }
@@ -325,4 +355,4 @@ class _RatingState extends State<Rating> {
           },
         ));
   }
-}
+}*/
