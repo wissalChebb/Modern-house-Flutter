@@ -28,7 +28,8 @@ class _ProductImagesState extends State<ProductImages> {
             aspectRatio: 1,
             child: Hero(
               tag: widget.product.id.toString(),
-              child: Image.asset(widget.product.image!),
+              child: Image.network(
+                  'http://192.168.1.6:9090/img/${widget.product.image}'),
             ),
           ),
         ),
@@ -63,7 +64,8 @@ class _ProductImagesState extends State<ProductImages> {
           border: Border.all(
               color: kPrimaryColor.withOpacity(selectedImage == index ? 1 : 0)),
         ),
-        child: Image.asset(widget.product.image!),
+        child: Image.network(
+            'http://192.168.1.6:9090/img/${widget.product.image}'),
       ),
     );
   }

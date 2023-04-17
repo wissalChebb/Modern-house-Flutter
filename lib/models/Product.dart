@@ -48,7 +48,7 @@ class Product {
     return Product(
         id: jsonData['_id'],
         title: jsonData['productname'],
-        image: "assets/images/" + jsonData['image'],
+        image: jsonData['image'],
         description: jsonData['description'],
         category: jsonData['category'],
         price: jsonData['price'],

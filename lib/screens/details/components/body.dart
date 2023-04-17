@@ -174,7 +174,8 @@ class _RatingState extends State<Rating> {
         direction: Axis.horizontal,
         allowHalfRating: true,
         itemCount: 5,
-        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+        itemSize: 22,
+        itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
         itemBuilder: (context, _) => Icon(
           Icons.star,
           color: Colors.amber,
@@ -234,7 +235,8 @@ setState(() {
                 children: <Widget>[
                   CircleAvatar(
                     radius: 18.0,
-                    backgroundImage: NetworkImage(user!.image),
+                    backgroundImage: NetworkImage(
+                        'http://192.168.1.6:9090/img/${user!.image}'),
                     backgroundColor: Colors.transparent,
                   ),
                   const SizedBox(
@@ -267,12 +269,7 @@ setState(() {
                 alignment: Alignment.topLeft,
                 margin: EdgeInsets.only(left: 10),
                 child: Rating(rate: widget.rate.rate!,)),
-            Text(
-              "${widget.rate.createdAt}",
-              style:
-                  TextStyle(color: Colors.white, fontStyle: FontStyle.italic),
-              textAlign: TextAlign.start,
-            ),
+         
             Text(
               "${widget.rate.feedback}",
               style:
@@ -311,7 +308,7 @@ setState(() {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Text(
-                    'HÁ 1 HORA',
+                    "${widget.rate.createdAt}",
                     style: TextStyle(
                       color: Colors.white,
                     ),

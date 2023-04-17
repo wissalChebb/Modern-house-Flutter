@@ -297,7 +297,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                       child: Row(
                         children: [
                           Image.network(
-                            'http://localhost:9090/img/${product.image}',
+                            'http://192.168.1.6:9090/img/${product.image}',
                             width: 80.0,
                             height: 80.0,
                             fit: BoxFit.cover,

@@ -42,7 +42,8 @@ class ProductCard extends StatelessWidget {
                   ),
                   child: Hero(
                     tag: product.id.toString(),
-                    child: Image.asset(product.image!),
+                    child: Image.network(
+                        'http://192.168.1.6:9090/img/${product.image}'),
                   ),
                 ),
               ),
