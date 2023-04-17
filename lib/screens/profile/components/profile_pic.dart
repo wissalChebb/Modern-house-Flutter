@@ -13,7 +13,7 @@ class ProfilePic extends StatelessWidget {
     String? img = user?.image;
     String? url = "";
     if (img != "") {
-      url = 'http://172.16.6.170:9090/img/' + img!;
+      url = 'http://172.16.2.241:9090/img/' + img!;
     } else {
       url =
           "https://images.pexels.com/photos/3307758/pexels-photo-3307758.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250";

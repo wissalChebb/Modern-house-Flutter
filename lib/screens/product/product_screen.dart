@@ -51,7 +51,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
   Future<void> _fetchProducts() async {
     try {
       final response =
-          await http.get(Uri.parse('http://localhost:9090/produit/getall'));
+          await http.get(Uri.parse('http://172.16.2.241:9090/produit/getall'));
 
       if (response.statusCode == 200) {
         final List<dynamic> jsonList = jsonDecode(response.body);
@@ -72,7 +72,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
   Future<void> _addToWishlist(id, productId) async {
     try {
-      final url = Uri.parse('http://localhost:9090/wishlist/addwish');
+      final url = Uri.parse('http://172.16.2.241:9090/wishlist/addwish');
       final response = await http.post(url, body: {
         'idproduct': productId,
         'idUser': id,
@@ -91,7 +91,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
   void _sortProductsByCategory(String category) async {
     try {
-      final url = Uri.parse('http://localhost:9090/produit/getbycategory');
+      final url = Uri.parse('http://172.16.2.241:9090/produit/getbycategory');
       final response = await http.post(url, body: {
         'category': category,
       });
@@ -116,7 +116,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
   Future _fetchProductswish(id) async {
     try {
       final response = await http.post(
-        Uri.parse('http://localhost:9090/wishlist/getwishid'),
+        Uri.parse('http://172.16.2.241:9090/wishlist/getwishid'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Charset': 'utf-8'
@@ -297,7 +297,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                       child: Row(
                         children: [
                           Image.network(
-                            'http://192.168.1.6:9090/img/${product.image}',
+                            'http://172.16.2.241:9090/img/${product.image}',
                             width: 80.0,
                             height: 80.0,
                             fit: BoxFit.cover,

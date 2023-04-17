@@ -9,9 +9,10 @@ import 'package:pim/size_config.dart';
 class FeedBackScreen extends StatelessWidget {
   static String routeName = "/ FeedBack";
   FeedBackScreen(
-      {super.key, required this.product_id, required this.product_name});
+      {super.key, required this.product_id, required this.product_name, required this.product_image});
   final String product_id;
   final String product_name;
+  final String product_image;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -49,6 +50,7 @@ class FeedBackScreen extends StatelessWidget {
           ),
         ),
         body: Body(
+          product_image: product_image,
           product_id: product_id,
           product_name: product_name,
         ),

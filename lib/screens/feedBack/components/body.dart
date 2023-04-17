@@ -7,7 +7,8 @@ import 'package:pim/screens/details/components/body.dart';
 class Body extends StatefulWidget {
   final String product_id;
   final String product_name;
-  Body({super.key, required this.product_id, required this.product_name});
+  final String product_image;
+  Body({super.key, required this.product_id, required this.product_name, required this.product_image});
 
   @override
   State<Body> createState() => _BodyState();
@@ -34,20 +35,11 @@ class _BodyState extends State<Body> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(60.0)),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(60.0),
-                          child: Image.asset(
-                            "assets/images/download.jpg",
-                            fit: BoxFit
-                                .cover, // ajuster l'image pour remplir complètement le conteneur
-                          ),
-                        ),
+                      CircleAvatar(
+                        radius: 18.0,
+                        backgroundImage: NetworkImage(
+                            'http://172.16.2.241:9090/img/${user!.image}'),
+                        backgroundColor: Colors.transparent,
                       ),
                       SizedBox(
                         width: 30,
@@ -73,10 +65,8 @@ class _BodyState extends State<Body> {
                       child: Container(
                         height: 100,
                         width: 100,
-                        child: Image.asset(
-                          "assets/images/download.jpg",
-                          // ajuster l'image pour remplir complètement le conteneur
-                        ),
+                        child: Image.network(
+                            'http://172.16.2.241:9090/img/${widget.product_image}'),
                       ),
                     ),
                     Column(
@@ -164,7 +154,7 @@ class _BodyState extends State<Body> {
                         rate: rate,
                         feedback: "${title.text} -- ${feedback.text}",
                         onDone: () {
-                          ///apiData.getProductRates(widget.product_id);
+                          apiData.getProductRates(widget.product_id);
                           Navigator.pop(context);
                         });
                   },

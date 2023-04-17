@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:pim/models/Product.dart';
 
 import '../../../constants.dart';
@@ -29,7 +30,7 @@ class _ProductImagesState extends State<ProductImages> {
             child: Hero(
               tag: widget.product.id.toString(),
               child: Image.network(
-                  'http://192.168.1.6:9090/img/${widget.product.image}'),
+                  'http://172.16.2.241:9090/img/${widget.product.image}'),
             ),
           ),
         ),
@@ -64,8 +65,8 @@ class _ProductImagesState extends State<ProductImages> {
           border: Border.all(
               color: kPrimaryColor.withOpacity(selectedImage == index ? 1 : 0)),
         ),
-        child: Image.network(
-            'http://192.168.1.6:9090/img/${widget.product.image}'),
+        child:
+        Image.network('http://172.16.2.241:9090/img/${widget.product.image}'),
       ),
     );
   }

@@ -79,6 +79,7 @@ class ProductDescription extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => FeedBackScreen(
+                        product_image: product.image!,
                             product_name: product.title!,
                             product_id: product.id!,
                           )));

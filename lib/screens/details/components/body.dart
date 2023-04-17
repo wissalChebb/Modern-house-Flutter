@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:pim/components/api_routes.dart';
 import 'package:pim/components/default_button.dart';
 
 import 'package:pim/components/global_repos.dart';
@@ -218,7 +219,6 @@ setState(() {
   Widget build(BuildContext context) {
 //    SchedulerBinding.instance
   //      .addPostFrameCallback((_) => getUser());
-    print(user!.username);
     return Padding(
       padding: EdgeInsets.all(10),
       child: Card(
@@ -236,7 +236,7 @@ setState(() {
                   CircleAvatar(
                     radius: 18.0,
                     backgroundImage: NetworkImage(
-                        'http://192.168.1.6:9090/img/${user!.image}'),
+                        'http://172.16.2.241:9090/img/${user!.image}'),
                     backgroundColor: Colors.transparent,
                   ),
                   const SizedBox(
@@ -269,12 +269,12 @@ setState(() {
                 alignment: Alignment.topLeft,
                 margin: EdgeInsets.only(left: 10),
                 child: Rating(rate: widget.rate.rate!,)),
-         
+
             Text(
               "${widget.rate.feedback}",
               style:
                   TextStyle(color: Colors.white, fontStyle: FontStyle.italic),
-              textAlign: TextAlign.end,
+              textAlign: TextAlign.start,
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(4.0, 4.0, 4.0, 4.0),
@@ -283,7 +283,7 @@ setState(() {
                   IconButton(
                     onPressed: () {},
                     icon: Icon(Icons.thumb_up),
-                    color: Colors.blue,
+                    color: Colors.white,
                   ),
                   const SizedBox(
                     width: 4.0,
@@ -291,7 +291,7 @@ setState(() {
                   IconButton(
                     onPressed: () {},
                     icon: Icon(Icons.thumb_down),
-                    color: Colors.red,
+                    color: Colors.white,
                   ),
                   const SizedBox(
                     width: 4.0,
