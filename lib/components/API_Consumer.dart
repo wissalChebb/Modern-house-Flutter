@@ -34,7 +34,9 @@ class API_Consumer {
     Map<String,dynamic> bodyData = json.decode(response.body);
 
     _product_rates = (bodyData['Ratings'] as List<dynamic>).map((e) => Rate.fromJson(e)).toList();
+   // _product_sum = (bodyData['sum'] as List<dynamic>).map((e) => Rate.fromJson(e)).toList();
     _productRatesSubject.add(UnmodifiableListView(_product_rates));
+
   }
 
   Future<Null> addRate(

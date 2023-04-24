@@ -223,7 +223,7 @@ setState(() {
       padding: EdgeInsets.all(10),
       child: Card(
         margin: EdgeInsets.only(bottom: 20),
-        color: Colors.grey,
+        color: Colors.deepOrangeAccent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
         ),

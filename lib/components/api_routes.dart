@@ -1,5 +1,5 @@
 class Api_Routes {
-  static final String base = "http://172.16.2.241:9090/";
+  static final String base = "http://172.16.6.66:9090/";
   static final String products_route = base + 'Produit/';
   static final String payment_route = base + 'payment/';
   static final String feedback_route = base + 'Ratings/';

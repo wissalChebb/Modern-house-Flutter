@@ -43,7 +43,7 @@ class ProductCard extends StatelessWidget {
                   child: Hero(
                     tag: product.id.toString(),
                     child: Image.network(
-                        'http://172.16.2.241:9090/img/${product.image}'),
+                        'http://192.168.1.7:9090/img/${product.image}'),
                   ),
                 ),
               ),

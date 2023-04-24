@@ -6,7 +6,7 @@ import 'package:pim/enums.dart';
 import 'package:pim/screens/comands/body.dart';
 
 class ComandScreen extends StatelessWidget {
-  static String routeName = "/command";
+  static String routeName = "/CommandScreen";
   @override
   Widget build(BuildContext context) {
     return Scaffold(

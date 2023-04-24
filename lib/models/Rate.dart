@@ -18,6 +18,7 @@ class Rate {
     feedback = json['feedback'];
     user = json['user'] != null ? json['user'] : "";
     createdAt = json['createdAt'];
+
     updatedAt = json['updatedAt'];
   }
   String? id;
