@@ -78,13 +78,13 @@ class API_Consumer {
   }
 
   Future<Null> addReclamation(
-      {command_id, rate, feedback, VoidCallback? onDone}) async {
+      {idUser, idcart, description, sujet,VoidCallback? onDone}) async {
     Response response =
     await post(Uri.parse(Api_Routes.add_product_rating), body: {
-      "command_id": command_id,
-      "rate": rate.toString(),
-      "feedback": feedback,
-      "idUser": user!.id
+      "description": description,
+      "idcart": idcart,
+      "idUser": user!.id,
+      "sujet": sujet
     });
     print(response.body);
     response.statusCode == 200 ? onDone!() : null;

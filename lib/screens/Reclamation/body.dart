@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pim/components/default_button.dart';
+import 'package:pim/components/global_repos.dart';
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);
 
@@ -79,9 +80,9 @@ class Body extends StatelessWidget {
               ),
               DefaultButton(
                 text: "SEND",
-                press: () {
-
-                },
+                 press: () {
+      apiData.addReclamation();
+      },
               )
             ],
           ),
