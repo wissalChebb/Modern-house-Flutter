@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pim/components/global_repos.dart';
 import 'package:pim/models/Cart.dart';
+import 'package:pim/models/Product.dart';
 
 import '../../../models/Product.dart';
 import '../../../size_config.dart';
@@ -29,10 +30,10 @@ class _BodyState extends State<Body> {
             itemBuilder: (context, index) => Padding(
               padding: EdgeInsets.symmetric(vertical: 10),
               child: Dismissible(
-                key: Key(snapshot.data![index].product.id.toString()),
+                key: Key(snapshot.data![index].product!.id.toString()),
                 direction: DismissDirection.endToStart,
                 onDismissed: (direction) {
-                  cart_repo.removeFromCart(snapshot.data![index].id);
+                  cart_repo.removeFromCart(snapshot.data![index].id!);
                 },
                 background: Container(
                   padding: EdgeInsets.symmetric(horizontal: 20),

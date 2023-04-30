@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pim/models/Cart.dart';
 
 import '../../../constants.dart';
+import '../../../models/Product.dart';
 import '../../../size_config.dart';
 
 class CartCard extends StatelessWidget {
@@ -26,7 +27,7 @@ class CartCard extends StatelessWidget {
                 color: Color(0xFFF5F6F9),
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: Image.asset(cart.product.image!),
+              child: Image.asset(cart.product!.image!),
             ),
           ),
         ),
@@ -35,14 +36,14 @@ class CartCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              cart.product.title!,
+              cart.product!.title!,
               style: TextStyle(color: Colors.black, fontSize: 16),
               maxLines: 2,
             ),
             SizedBox(height: 10),
             Text.rich(
               TextSpan(
-                text: "\$${cart.product.price}",
+                text: "\$${cart.product!.price}",
                 style: TextStyle(
                     fontWeight: FontWeight.w600, color: kPrimaryColor),
                 children: [

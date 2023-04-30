@@ -30,7 +30,7 @@ class Cart_Repo {
   _totalPrice() {
     int total = 0;
     _cardData.forEach((element) {
-      total += element.product.price!;
+      total += element.product!.price!;
     });
     return total;
   }
