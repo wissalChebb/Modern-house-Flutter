@@ -8,6 +8,7 @@ import 'package:pim/components/Cart_Repo.dart';
 import 'package:pim/components/api_routes.dart';
 import 'package:pim/models/Cart.dart';
 
+
 import 'package:pim/models/Product.dart';
 import 'package:pim/models/Rate.dart';
 import 'package:pim/models/user.dart';
@@ -28,13 +29,34 @@ class API_Consumer {
   Stream<UnmodifiableListView<Product>> get Products => _productsSubject.stream;
   Stream<UnmodifiableListView<Rate>> get Rates => _productRatesSubject.stream;
 
+
+  /***/
+  static Future<List<Cart>> getCommandUserFromBackend() async {
+    var response = await post(Uri.parse(Api_Routes.get_all_Commands), body: {
+      "idUser": user!.id
+    });
+    var decode = json.decode(response.body) as List<dynamic>;
+    return decode.map((e) {
+      print("wissal mapping");
+      print(e);
+      var cart = Cart.fromJson(e);
+      print(cart.product);
+      return Cart.fromJson(e);
+    }).toList();
+  }
+
+  /***/
+
   Future<Null> getCommandUser(userId) async {
     _commandsSubject.add(UnmodifiableListView([]));
+    print("hahahaha");
     Response response = await post(Uri.parse(Api_Routes.get_all_Commands),
         body: {"user": userId});
     print(response.body);
-    Map<String,dynamic> bodyData = json.decode(response.body);
-    _all_Command = (bodyData['sum'] as List<dynamic>).map((e) => Cart.fromJson(e)).toList();
+    List< dynamic> bodyData = json.decode(response.body);
+
+    //_all_Command=bodyData.map((e) => Cart.fromJson(e) as MapEntry Function(String key, dynamic value)).toList();
+    _all_Command =  bodyData.map((e) => Cart.fromJson(e)).toList();
     // _product_sum = (bodyData['sum'] as List<dynamic>).map((e) => Rate.fromJson(e)).toList();
     _commandsSubject.add(UnmodifiableListView(_all_Command));
 
@@ -79,8 +101,11 @@ class API_Consumer {
 
   Future<Null> addReclamation(
       {idUser, idcart, description, sujet,VoidCallback? onDone}) async {
+    print("wissal chebbi a");
+    print(description);
+    print(sujet);
     Response response =
-    await post(Uri.parse(Api_Routes.add_product_rating), body: {
+    await post(Uri.parse(Api_Routes.add_Reclamation), body: {
       "description": description,
       "idcart": idcart,
       "idUser": user!.id,
@@ -113,6 +138,6 @@ class API_Consumer {
 
   API_Consumer() {
     getAllProducts();
-    getCommandUser(_all_Command);
+    getCommandUser("");
   }
 }

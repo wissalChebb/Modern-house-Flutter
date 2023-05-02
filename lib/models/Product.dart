@@ -45,6 +45,9 @@ class Product {
       this.isPopular = false});
 
   factory Product.fromJson(Map<String, dynamic> jsonData) {
+    print("wissal chebbi product:");
+    print(jsonData);
+    print(jsonData['image']);
     return Product(
         id: jsonData['_id'],
         title: jsonData['productname'],

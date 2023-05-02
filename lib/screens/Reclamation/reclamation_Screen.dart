@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pim/constants.dart';
+import 'package:pim/models/Cart.dart';
 import 'package:pim/screens/Reclamation/body.dart';
 import 'package:pim/size_config.dart';
 class ReclamationScreen extends StatelessWidget {
@@ -8,6 +9,8 @@ class ReclamationScreen extends StatelessWidget {
   static String routeName = "/Reclamation";
   @override
   Widget build(BuildContext context) {
+    final Cart agrs = ModalRoute.of(context)!.settings.arguments as Cart;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0xFFF5F6F9),
@@ -42,7 +45,7 @@ class ReclamationScreen extends StatelessWidget {
             ),
           ),
         ),
-        body: Body(),
+        body: Body(agrs),
       ),
     );
     

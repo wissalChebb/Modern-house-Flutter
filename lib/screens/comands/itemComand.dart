@@ -1,20 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:pim/models/Cart.dart';
+import 'package:pim/models/Product.dart';
+import 'package:pim/models/User.dart';
 
 import 'package:pim/screens/detailCommand/detailComand_screen.dart';
 
 import 'package:pim/screens/login_success/login_success_screen.dart';
+class itemCommand extends StatefulWidget {
+  const itemCommand({Key? key, this.cart}) : super(key: key);
+  final Cart? cart;
 
-class itemComand extends StatelessWidget {
-  const itemComand({super.key});
-  static String routeName = "/detailCommandScreen";
+  @override
+  State<itemCommand> createState() => _itemCommandState();
+}
+
+class _itemCommandState extends State<itemCommand> {
+  //User? user;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Navigator.pushNamed(
-      context,
-      DetailComandScreen.routeName,
+        context,
+        DetailComandScreen.routeName,
+          arguments: ProductsArguments(products: widget.cart!.products!, cart: widget.cart!),
 
-    ),
+
+      ),
       child:  Padding(
           padding: EdgeInsets.all(10),
 
@@ -30,34 +41,36 @@ class itemComand extends StatelessWidget {
                 padding: EdgeInsets.all(10),
 
                 child:Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Image.asset(
-                      "assets/images/download.jpg", height: 50, width: 50,
-                      // ajuster l'image pour remplir complètement le conteneur
-                    ),
-                    SizedBox(height: 10,width: 20,),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Category NAME "),
-                        SizedBox(height: 10,),
-                        Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                Image.network(
+                'http://192.168.1.6:9090/img/${widget.cart!.product!.image}', height: 50, width: 50,
+                        // ajuster l'image pour remplir complètement le conteneur
+                      ),
+                      SizedBox(height: 10,width: 20,),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text( "${widget.cart!.product!.category}"),
+                          SizedBox(height: 10,),
+                          Row(
 
-                          children: [
-                            Text("233 dt"),
-                            SizedBox(width: 100,),
-                            Text("Status")
-                          ],
-                        ),
-                        Text("2020/10/03")
-                      ],
-                    )
+                            children: [
+                              Text("${widget.cart!.paid}"),
+                              SizedBox(width: 100,),
+                              Text("${widget.cart!.etat}")
+                            ],
+                          ),
+                          Text("${widget.cart!.date}")
+                        ],
+                      )
 
-                  ]
+                    ]
                 )),)
       ),
     );
   }
 }
+
+

@@ -1,8 +1,10 @@
 import 'dart:collection';
 
-import 'package:pim/models/Cart.dart';
+
 import 'package:pim/models/Product.dart';
 import 'package:rxdart/rxdart.dart';
+
+import '../models/Cart.dart';
 
 class Cart_Repo {
   List<Cart> _cardData = [];
@@ -13,7 +15,7 @@ class Cart_Repo {
   Stream<UnmodifiableListView<Cart>> get CartData => _cartSubject.stream;
 
   void addToCart(Product product, int Quantity) {
-    _cardData.add(Cart(id: product.id!, product: product, numOfItem: Quantity));
+    _cardData.add(Cart(id: product.id, product: product, numOfItem: Quantity));
     _cartSubject.add(UnmodifiableListView(_cardData));
   }
 
@@ -34,4 +36,5 @@ class Cart_Repo {
     });
     return total;
   }
+
 }

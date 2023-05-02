@@ -1,9 +1,15 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
+import 'package:pim/components/API_Consumer.dart';
 import 'package:pim/components/default_button.dart';
+import 'package:pim/models/Cart.dart';
+import 'package:pim/models/Product.dart';
 import 'package:pim/screens/home/home_screen.dart';
 import 'package:pim/size_config.dart';
 class Body extends StatelessWidget {
-  const Body({Key? key}) : super(key: key);
+  final List<Product> products;
+  const Body(this.products, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,78 +19,47 @@ class Body extends StatelessWidget {
 
 
       child: Column(
-
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Image.asset(
-                "assets/images/download.jpg", height: 60, width: 60,
-                // ajuster l'image pour remplir complètement le conteneur
-              ),
-              SizedBox(width: 20,),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("titre"),
-                  Text("description")
-
-                ],
-              )
-
-            ],
-          ),
-          SizedBox(height: 30,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Image.asset(
-                "assets/images/download.jpg", height: 60, width: 60,
-                // ajuster l'image pour remplir complètement le conteneur
-              ),
-              SizedBox(width: 20,),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("titre"),
-                  Text("description")
-
-                ],
-              )
-
-            ],
-          ),
-          SizedBox(height: 30,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Image.asset(
-                "assets/images/download.jpg", height: 60, width: 60,
-                // ajuster l'image pour remplir complètement le conteneur
-              ),
-              SizedBox(width: 20,),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("titre"),
-                  Text("description")
-
-                ],
-              )
-
-            ],
-          )
-
-        ],
+        children: products.map((p) => itemProduit(p)).toList()
       )
      );
 
 
+  }
+}
+
+class itemProduit extends StatelessWidget {
+  final Product product;
+  const itemProduit(this.product, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.network(
+              //"assets/images/download.jpg", height: 60, width: 60,
+              'http://192.168.1.6:9090/img/${product.image!}', height: 60, width: 60,
+              // ajuster l'image pour remplir complètement le conteneur
+            ),
+            SizedBox(width: 20,),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(product.title ?? "title"),
+                Text(product.description ?? "description"),
+                Text(product.price.toString()+"dt" )
+              ],
+            ),
+            SizedBox(height: 30,),
+          ],
+        ),
+      ],
+    );
   }
 }
