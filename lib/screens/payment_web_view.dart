@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pim/components/global_repos.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class PaymentWebView extends StatefulWidget {
+/*class PaymentWebView extends StatefulWidget {
   PaymentWebView({Key? key, required this.paymen_url}) : super(key: key);
   final String paymen_url;
   @override
@@ -39,7 +39,7 @@ class _PaymentWebViewState extends State<PaymentWebView> {
           },
         ),
       )
-      ..loadRequest(Uri.parse(widget.paymen_url));
+      ..loadRequest(Uri.parse(widget.paymen_url) as WebViewRequest);
   }
 
   @override
@@ -51,3 +51,4 @@ class _PaymentWebViewState extends State<PaymentWebView> {
     ;
   }
 }
+*/

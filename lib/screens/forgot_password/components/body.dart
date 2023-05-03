@@ -134,7 +134,7 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
 
 Future resetpwd(email) async {
   final response = await http.post(
-    Uri.parse('http://172.16.2.241:9090/user/resetpwd'),
+    Uri.parse('http://192.168.1.183:9090/user/resetpwd'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

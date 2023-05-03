@@ -32,7 +32,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
     final prefs = await SharedPreferences.getInstance();
     try {
       final response = await http.post(
-        Uri.parse('http://localhost:9090/wishlist/getwishid'),
+        Uri.parse('http://192.168.1.183:9090/wishlist/getwishid'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Charset': 'utf-8'
@@ -60,7 +60,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
 
   Future<void> _deleteProduct(id, productId) async {
     try {
-      final url = Uri.parse('http://localhost:9090/wishlist/deletewish');
+      final url = Uri.parse('http://192.168.1.183:9090/wishlist/deletewish');
       final response = await http.delete(url, body: {
         'userId': id,
         'productId': productId,
@@ -147,7 +147,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: NetworkImage(
-                            'http://localhost:9090/img/${product.image}',
+                            'http://192.168.1.183:9090/img/${product.image}',
                           ),
                           fit: BoxFit.cover,
                         ),

@@ -38,7 +38,7 @@ class _BodyState extends State<Body> {
                       CircleAvatar(
                         radius: 18.0,
                         backgroundImage: NetworkImage(
-                            'http://172.16.2.241:9090/img/${user!.image}'),
+                            'http://192.168.1.183:9090/img/${user!.image}'),
                         backgroundColor: Colors.transparent,
                       ),
                       SizedBox(
@@ -66,7 +66,7 @@ class _BodyState extends State<Body> {
                         height: 100,
                         width: 100,
                         child: Image.network(
-                            'http://172.16.2.241:9090/img/${widget.product_image}'),
+                            'http://172.16.13.103:9090/img/${widget.product_image}'),
                       ),
                     ),
                     Column(
