@@ -10,11 +10,14 @@ import '../../../constants.dart';
 import '../../../size_config.dart';
 import '../../../models/user.dart';
 
-class CheckoutCard extends StatelessWidget {
-  const CheckoutCard({
-    Key? key,
-  }) : super(key: key);
+class CheckoutCard extends StatefulWidget {
+  const CheckoutCard({super.key});
 
+  @override
+  State<CheckoutCard> createState() => _CheckoutCardState();
+}
+
+class _CheckoutCardState extends State<CheckoutCard> {
   @override
   Widget build(BuildContext context) {
     TextEditingController _textController = TextEditingController();
@@ -58,9 +61,15 @@ class CheckoutCard extends StatelessWidget {
                 Spacer(),
                 //haseeeeeeeeeen
                 Container(
-                  width: 70, // Set the desired width here
+                  width: 200,
+                  height: 50, // Set the desired width here
                   child: TextField(
-                    style: TextStyle(fontSize: 100),
+                    style: TextStyle(fontSize: 10),
+                    decoration: InputDecoration(
+                      labelText: "code",
+                      hintText: "Enter your Code",
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                    ),
                     controller: _textController,
                     // Add any other properties you need for the TextField here
                   ),
@@ -155,7 +164,7 @@ Future VerifCode(context, code) async {
   if (response.statusCode == 200) {
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
-    c = codePromoFromJson(response.body);
+    c = CodePromo.fromJson(jsonDecode(response.body));
     if (c!.active) {
       _showPopupMessage(
           context, "Your Code Is Correct", "Your Code Is Activated !");

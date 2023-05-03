@@ -19,7 +19,7 @@ class CodePromo {
   });
 
   factory CodePromo.fromJson(Map<String, dynamic> json) => CodePromo(
-        discount: json["discount"],
+        discount: json['discount'],
         active: json["active"],
       );
 

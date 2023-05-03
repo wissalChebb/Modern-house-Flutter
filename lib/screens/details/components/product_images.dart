@@ -30,7 +30,7 @@ class _ProductImagesState extends State<ProductImages> {
             child: Hero(
               tag: widget.product.id.toString(),
               child: Image.network(
-                  'http://192.168.43.98:9090/img/${widget.product.image}'),
+                  'http://192.168.1.168:9090/img/${widget.product.image}'),
             ),
           ),
         ),

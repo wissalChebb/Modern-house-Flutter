@@ -1,6 +1,5 @@
 import 'dart:collection';
 
-
 import 'package:pim/models/Product.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -9,7 +8,7 @@ import '../models/Cart.dart';
 class Cart_Repo {
   List<Cart> _cardData = [];
   final _cartSubject = new BehaviorSubject<UnmodifiableListView<Cart>>();
-
+  double? totalwithdiscount;
   int get totalCartPrice => _totalPrice();
 
   Stream<UnmodifiableListView<Cart>> get CartData => _cartSubject.stream;
@@ -24,7 +23,7 @@ class Cart_Repo {
     _cartSubject.add(UnmodifiableListView(_cardData));
   }
 
-  void clearCart(){
+  void clearCart() {
     _cardData.clear();
     _cartSubject.add(UnmodifiableListView(_cardData));
   }
@@ -36,5 +35,4 @@ class Cart_Repo {
     });
     return total;
   }
-
 }
