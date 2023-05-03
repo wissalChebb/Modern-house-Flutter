@@ -65,8 +65,8 @@ class _ProductImagesState extends State<ProductImages> {
           border: Border.all(
               color: kPrimaryColor.withOpacity(selectedImage == index ? 1 : 0)),
         ),
-        child:
-        Image.network('http://192.168.43.98:9090/img/${widget.product.image}'),
+        child: Image.network(
+            'http://192.168.1.168:9090/img/${widget.product.image}'),
       ),
     );
   }

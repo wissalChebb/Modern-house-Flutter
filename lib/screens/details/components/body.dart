@@ -98,8 +98,6 @@ class Body extends StatelessWidget {
   }
 }
 
-
-
 class Rating extends StatefulWidget {
   final double? rate;
   ValueChanged<double>? rateValue;
@@ -136,9 +134,8 @@ class _RatingState extends State<Rating> {
   }
 }
 
-
 class PostWidget extends StatefulWidget {
-  PostWidget({Key? key,required this.rate}) : super(key: key);
+  PostWidget({Key? key, required this.rate}) : super(key: key);
   Rate rate;
   @override
   State<PostWidget> createState() => _PostWidgetState();
@@ -154,17 +151,17 @@ class _PostWidgetState extends State<PostWidget> {
     WidgetsFlutterBinding.ensureInitialized();
     getUser();
   }
-  Future<Null> getUser() async{
+
+  Future<Null> getUser() async {
     user = await apiData.getUserInfo(userID: widget.rate.user!);
     print(user!.username);
-setState(() {
-
-});
+    setState(() {});
   }
+
   @override
   Widget build(BuildContext context) {
 //    SchedulerBinding.instance
-  //      .addPostFrameCallback((_) => getUser());
+    //      .addPostFrameCallback((_) => getUser());
     return Padding(
       padding: EdgeInsets.all(10),
       child: Card(
@@ -182,7 +179,7 @@ setState(() {
                   CircleAvatar(
                     radius: 18.0,
                     backgroundImage: NetworkImage(
-                        'http://192.168.43.98:9090/img/${user!.image}'),
+                        'http://192.168.1.168:9090/img/${user!.image}'),
                     backgroundColor: Colors.transparent,
                   ),
                   const SizedBox(
@@ -214,8 +211,9 @@ setState(() {
             Container(
                 alignment: Alignment.topLeft,
                 margin: EdgeInsets.only(left: 10),
-                child: Rating(rate: widget.rate.rate!,)),
-
+                child: Rating(
+                  rate: widget.rate.rate!,
+                )),
             Text(
               "${widget.rate.feedback}",
               style:
@@ -268,4 +266,3 @@ setState(() {
     );
   }
 }
-

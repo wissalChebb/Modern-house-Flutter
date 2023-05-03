@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pim/models/Cart.dart';
 
-
 import '../../../constants.dart';
 import '../../../models/Product.dart';
 import '../../../size_config.dart';
@@ -28,8 +27,8 @@ class CartCard extends StatelessWidget {
                 color: Color(0xFFF5F6F9),
                 borderRadius: BorderRadius.circular(15),
               ),
-              child:Image.network(
-                  'http://192.168.43.98:9090/img/${cart.product!.image}'),
+              child: Image.network(
+                  'http://192.168.1.168:9090/img/${cart.product!.image}'),
             ),
           ),
         ),

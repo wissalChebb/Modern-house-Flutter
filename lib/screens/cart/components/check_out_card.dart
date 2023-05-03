@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pim/components/default_button.dart';
 import 'package:pim/components/global_repos.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:pim/models/CodePromo.dart';
 import '../../../constants.dart';
 import '../../../size_config.dart';
+import '../../../models/user.dart';
 
 class CheckoutCard extends StatelessWidget {
   const CheckoutCard({
@@ -13,6 +17,7 @@ class CheckoutCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController _textController = TextEditingController();
     return Container(
       padding: EdgeInsets.symmetric(
         vertical: getProportionateScreenWidth(15),
@@ -52,11 +57,25 @@ class CheckoutCard extends StatelessWidget {
                 ),
                 Spacer(),
                 //haseeeeeeeeeen
-                Text("Add voucher code"),
-                const SizedBox(width: 10),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: 12,
+                Container(
+                  width: 70, // Set the desired width here
+                  child: TextField(
+                    style: TextStyle(fontSize: 100),
+                    controller: _textController,
+                    // Add any other properties you need for the TextField here
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                IconButton(
+                  onPressed: () {
+                    // Callback function when the icon is pressed
+                    VerifCode(context, _textController.text);
+                    print('Icon button pressed');
+                  },
+                  icon: Icon(Icons.arrow_forward_ios),
+                  iconSize: 12,
                   color: kTextColor,
                 )
               ],
@@ -73,7 +92,8 @@ class CheckoutCard extends StatelessWidget {
                           text: "Total:\n",
                           children: [
                             TextSpan(
-                              text: "\$ ${cart_repo.totalCartPrice}",
+                              text:
+                                  "\$ ${cart_repo.totalCartPrice - ((cart_repo.totalCartPrice * c!.discount) / 100)}",
                               style:
                                   TextStyle(fontSize: 16, color: Colors.black),
                             ),
@@ -85,10 +105,9 @@ class CheckoutCard extends StatelessWidget {
                         child: DefaultButton(
                           text: "Check Out",
                           press: () {
-                            if(snapshot.data!.isNotEmpty){
+                            if (snapshot.data!.isNotEmpty) {
                               apiData.createPaymentRequest(context);
                             }
-
                           },
                         ),
                       ),
@@ -99,5 +118,56 @@ class CheckoutCard extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+void _showPopupMessage(BuildContext context, String title, String content) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title),
+        content: Text(content),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text("OK"),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future VerifCode(context, code) async {
+// obtain shared preferences
+
+  final response = await http.post(
+    Uri.parse('http://192.168.1.168:9090/Promo/check/'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{'code': code, 'idUser': user!.id}),
+  );
+  print(response.body);
+  if (response.statusCode == 200) {
+    // If the server did return a 201 CREATED response,
+    // then parse the JSON.
+    c = codePromoFromJson(response.body);
+    if (c!.active) {
+      _showPopupMessage(
+          context, "Your Code Is Correct", "Your Code Is Activated !");
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      _showPopupMessage(context, "Try Again", "This Code Is Already Used  !");
+      throw Exception('Failed to create album.');
+    }
+  } else {
+    // If the server did not return a 201 CREATED response,
+    // then throw an exception.
+    _showPopupMessage(context, "Try Again", "This Code Is Already Used  !");
   }
 }

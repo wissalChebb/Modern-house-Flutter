@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 import 'package:pim/components/coustom_bottom_nav_bar.dart';
 import 'package:pim/models/Product.dart'; // assuming that you have defined the Product class
 import 'package:pim/enums.dart';
@@ -9,8 +8,6 @@ import 'package:pim/models/user.dart';
 import 'package:pim/screens/WishList/WishScreen.dart';
 import 'package:pim/models/Wishlist.dart';
 import 'package:pim/screens/details/details_screen.dart';
-
-import 'package:pim/constants.dart';
 
 class ProductListScreen extends StatefulWidget {
   static String routeName = "/produit";
@@ -51,7 +48,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
   Future<void> _fetchProducts() async {
     try {
       final response =
-          await http.get(Uri.parse('http://192.168.43.98:9090/produit/getall'));
+          await http.get(Uri.parse('http://192.168.1.168:9090/produit/getall'));
 
       if (response.statusCode == 200) {
         final List<dynamic> jsonList = jsonDecode(response.body);
@@ -72,7 +69,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
   Future<void> _addToWishlist(id, productId) async {
     try {
-      final url = Uri.parse('http://192.168.43.98:9090/wishlist/addwish');
+      final url = Uri.parse('http://192.168.1.168:9090/wishlist/addwish');
       final response = await http.post(url, body: {
         'idproduct': productId,
         'idUser': id,
@@ -91,7 +88,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
   void _sortProductsByCategory(String category) async {
     try {
-      final url = Uri.parse('http://192.168.43.98:9090/produit/getbycategory');
+      final url = Uri.parse('http://192.168.1.168:9090/produit/getbycategory');
       final response = await http.post(url, body: {
         'category': category,
       });
@@ -116,7 +113,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
   Future _fetchProductswish(id) async {
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.43.98:9090/wishlist/getwishid'),
+        Uri.parse('http://192.168.1.168:9090/wishlist/getwishid'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Charset': 'utf-8'
@@ -269,22 +266,21 @@ class _ProductListScreenState extends State<ProductListScreen> {
               ),
             ),
             Expanded(
-              child: GestureDetector(
-                onTap: () => Navigator.pushNamed(
-                  context,
-                  DetailsScreen.routeName,
-                  arguments: ProductDetailsArguments(
-                      product: product1!), /* product empty lezem n3abiweh*/
-                ),
-                child: ListView.builder(
-                  itemCount: _searchQuery.isNotEmpty
-                      ? _filteredProducts.length
-                      : _products.length,
-                  itemBuilder: (context, index) {
-                    final product = _searchQuery.isNotEmpty
-                        ? _filteredProducts[index]
-                        : _products[index];
-                    return Container(
+              child: ListView.builder(
+                itemCount: _searchQuery.isNotEmpty
+                    ? _filteredProducts.length
+                    : _products.length,
+                itemBuilder: (context, index) {
+                  final product = _searchQuery.isNotEmpty
+                      ? _filteredProducts[index]
+                      : _products[index];
+                  return GestureDetector(
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      DetailsScreen.routeName,
+                      arguments: ProductDetailsArguments(product: product),
+                    ),
+                    child: Container(
                       padding: EdgeInsets.all(16.0),
                       margin:
                           EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
@@ -297,7 +293,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                       child: Row(
                         children: [
                           Image.network(
-                            'http://192.168.43.98:9090/img/${product.image}',
+                            'http://192.168.1.168:9090/img/${product.image}',
                             width: 80.0,
                             height: 80.0,
                             fit: BoxFit.cover,
@@ -363,9 +359,9 @@ class _ProductListScreenState extends State<ProductListScreen> {
                           ),
                         ],
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
               ),
             ),
           ],
@@ -374,10 +370,4 @@ class _ProductListScreenState extends State<ProductListScreen> {
       ),
     );
   }
-}
-
-class ProductDetailsArguments {
-  final Product product;
-
-  ProductDetailsArguments({required this.product});
 }

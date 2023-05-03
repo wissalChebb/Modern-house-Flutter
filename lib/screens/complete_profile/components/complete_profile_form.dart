@@ -182,7 +182,7 @@ Future<void> _getImage(id) async {
     File imageFile = File(pickedFile.path);
     print(imageFile.path);
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://192.168.1.7:9090/user/' + id));
+        'POST', Uri.parse('http://192.168.1.168:9090/user/' + id));
     request.files
         .add(await http.MultipartFile.fromPath('image', imageFile.path));
     var response = await request.send();

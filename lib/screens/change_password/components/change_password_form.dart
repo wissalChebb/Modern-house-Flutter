@@ -138,7 +138,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
 
 Future changepassword(context, value, email) async {
   final response = await http.post(
-    Uri.parse('http://192.168.1.122:9090/user/changepwd'),
+    Uri.parse('http://192.168.1.168:9090/user/changepwd'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
