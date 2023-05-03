@@ -182,7 +182,7 @@ setState(() {
                   CircleAvatar(
                     radius: 18.0,
                     backgroundImage: NetworkImage(
-                        'http://172.16.2.241:9090/img/${user!.image}'),
+                        'http://192.168.43.98:9090/img/${user!.image}'),
                     backgroundColor: Colors.transparent,
                   ),
                   const SizedBox(
