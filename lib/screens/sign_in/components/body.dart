@@ -1,10 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pim/components/no_account_text.dart';
 import 'package:pim/components/socal_card.dart';
 import '../../../size_config.dart';
 import 'sign_form.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+GoogleSignIn _googleSignIn = GoogleSignIn(
+  clientId:
+      '329288049230-cb67c73dpnu42bfenvk59l868rg3cgh3.apps.googleusercontent.com',
+  scopes: [
+    'email',
+    'https://www.googleapis.com/auth/contacts.readonly',
+  ],
+);
 
 class Body extends StatelessWidget {
+  GoogleSignInAccount? _currentUser;
+  bool _isAuthorized = false;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -37,15 +50,9 @@ class Body extends StatelessWidget {
                   children: [
                     SocalCard(
                       icon: "assets/icons/google-icon.svg",
-                      press: () {},
-                    ),
-                    SocalCard(
-                      icon: "assets/icons/facebook-2.svg",
-                      press: () {},
-                    ),
-                    SocalCard(
-                      icon: "assets/icons/twitter.svg",
-                      press: () {},
+                      press: () {
+                        _handleSignIn();
+                      },
                     ),
                   ],
                 ),
@@ -57,5 +64,13 @@ class Body extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _handleSignIn() async {
+    try {
+      await _googleSignIn.signIn();
+    } catch (error) {
+      print(error);
+    }
   }
 }

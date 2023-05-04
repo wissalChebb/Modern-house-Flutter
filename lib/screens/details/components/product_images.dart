@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:model_viewer_plus/model_viewer_plus.dart';
+
 import 'package:pim/models/Product.dart';
 
 import '../../../constants.dart';
@@ -26,10 +28,16 @@ class _ProductImagesState extends State<ProductImages> {
           width: getProportionateScreenWidth(238),
           child: AspectRatio(
             aspectRatio: 1,
-            child: Hero(
-              tag: widget.product.id.toString(),
-              child: Image.asset(widget.product.images[selectedImage]),
-            ),
+            child: ModelViewer(
+          src: 'http://192.168.1.168:9090/img/${widget.product.image}',
+          alt: "A 3D model of a table ",
+          ar: true,
+          arPlacement: ArPlacement.floor,
+          autoRotate: true,
+          cameraControls: true,
+       
+         
+        )
           ),
         ),
         // SizedBox(height: getProportionateScreenWidth(20)),
@@ -63,7 +71,8 @@ class _ProductImagesState extends State<ProductImages> {
           border: Border.all(
               color: kPrimaryColor.withOpacity(selectedImage == index ? 1 : 0)),
         ),
-        child: Image.asset(widget.product.images[index]),
+        child: Image.network(
+           'http://192.168.1.168:9090/img/${widget.product.image}'),
       ),
     );
   }

@@ -1,4 +1,7 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
+import 'package:pim/components/global_repos.dart';
 import 'package:pim/components/product_card.dart';
 import 'package:pim/models/Product.dart';
 
@@ -18,20 +21,26 @@ class PopularProducts extends StatelessWidget {
         SizedBox(height: getProportionateScreenWidth(20)),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              ...List.generate(
-                demoProducts.length,
-                (index) {
-                  if (demoProducts[index].isPopular)
-                    return ProductCard(product: demoProducts[index]);
+          child: StreamBuilder<UnmodifiableListView<Product>>(
+            stream: apiData.Products,
+            initialData: UnmodifiableListView([]),
+            builder: (context, snapshot) {
+              return Row(
+                children: [
+                  ...List.generate(
+                    snapshot.data!.length,
+                    (index) {
+                      if (snapshot.data![index].isPopular == false)
+                        return ProductCard(product: snapshot.data![index]);
 
-                  return SizedBox
-                      .shrink(); // here by default width and height is 0
-                },
-              ),
-              SizedBox(width: getProportionateScreenWidth(20)),
-            ],
+                      return SizedBox
+                          .shrink(); // here by default width and height is 0
+                    },
+                  ),
+                  SizedBox(width: getProportionateScreenWidth(20)),
+                ],
+              );
+            },
           ),
         )
       ],

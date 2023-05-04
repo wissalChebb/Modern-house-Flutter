@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pim/models/Product.dart';
+import 'package:pim/screens/details/components/body.dart';
+import 'package:pim/screens/feedBack/feedBack_screen.dart';
+import 'package:pim/screens/login_success/login_success_screen.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -23,9 +26,15 @@ class ProductDescription extends StatelessWidget {
         Padding(
           padding:
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-          child: Text(
-            product.title,
-            style: Theme.of(context).textTheme.headline6,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                product.title!,
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              // Rating()
+            ],
           ),
         ),
         Align(
@@ -55,7 +64,7 @@ class ProductDescription extends StatelessWidget {
             right: getProportionateScreenWidth(64),
           ),
           child: Text(
-            product.description,
+            product.description!,
             maxLines: 3,
           ),
         ),
@@ -65,11 +74,20 @@ class ProductDescription extends StatelessWidget {
             vertical: 10,
           ),
           child: GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => FeedBackScreen(
+                        product_image: product.image!,
+                            product_name: product.title!,
+                            product_id: product.id!,
+                          )));
+            },
             child: Row(
               children: [
                 Text(
-                  "See More Detail",
+                  "Add Review",
                   style: TextStyle(
                       fontWeight: FontWeight.w600, color: kPrimaryColor),
                 ),

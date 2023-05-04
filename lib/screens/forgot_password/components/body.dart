@@ -3,9 +3,11 @@ import 'package:pim/components/custom_surfix_icon.dart';
 import 'package:pim/components/default_button.dart';
 import 'package:pim/components/form_error.dart';
 import 'package:pim/components/no_account_text.dart';
-import 'package:pim/screens/otp/otp_screen.dart';
 import 'package:pim/size_config.dart';
-
+import 'package:pim/screens/otp/otp_screen.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:async';
 import '../../../constants.dart';
 
 class Body extends StatelessWidget {
@@ -50,6 +52,14 @@ class ForgotPassForm extends StatefulWidget {
 class _ForgotPassFormState extends State<ForgotPassForm> {
   final _formKey = GlobalKey<FormState>();
   final myController = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    myController.dispose();
+    super.dispose();
+  }
+
   List<String> errors = [];
   String? email;
   @override
@@ -103,11 +113,14 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
             text: "Continue",
             press: () {
               if (_formKey.currentState!.validate()) {
+                resetpwd(myController.text);
+                // Do what you want to do
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            OtpScreen(email: myController.text)));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OtpScreen(email: myController.text),
+                  ),
+                );
               }
             },
           ),
@@ -116,5 +129,26 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
         ],
       ),
     );
+  }
+}
+
+Future resetpwd(email) async {
+  final response = await http.post(
+    Uri.parse('http://192.168.1.183:9090/user/resetpwd'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{'email': email}),
+  );
+
+  if (response.statusCode == 200) {
+    // If the server did return a 201 CREATED response,
+    // then parse the JSON.
+
+    print("mail sent");
+  } else {
+    // If the server did not return a 201 CREATED response,
+    // then throw an exception.
+    throw Exception('Failed to create album.');
   }
 }
