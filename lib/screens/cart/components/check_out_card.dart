@@ -11,7 +11,10 @@ import '../../../size_config.dart';
 import '../../../models/user.dart';
 
 class CheckoutCard extends StatefulWidget {
-  const CheckoutCard({super.key});
+  final String product_id;
+  final String idUser;
+  const CheckoutCard({super.key, required this.product_id, required this.idUser});
+
 
   @override
   State<CheckoutCard> createState() => _CheckoutCardState();
@@ -79,7 +82,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                 ),
                 IconButton(
                   onPressed: () {
-                    // Callback function when the icon is pressed
+
                     VerifCode(context, _textController.text);
                     print('Icon button pressed');
                   },
@@ -115,7 +118,13 @@ class _CheckoutCardState extends State<CheckoutCard> {
                           text: "Check Out",
                           press: () {
                             if (snapshot.data!.isNotEmpty) {
-                              apiData.createPaymentRequest(context);
+                              apiData.addCart(
+                                idUser: widget.idUser,
+                                product_id: widget.product_id,
+                                onDone: () {
+
+                              },);
+                             // apiData.createPaymentRequest(context);
                             }
                           },
                         ),

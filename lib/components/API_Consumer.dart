@@ -94,6 +94,16 @@ class API_Consumer {
     print(response.body);
     response.statusCode == 200 ? onDone!() : null;
   }
+  Future<Null> addCart(
+      {product_id, idUser, VoidCallback? onDone}) async {
+    Response response =
+    await post(Uri.parse(Api_Routes.addCommand), body: {
+      "product_id": product_id,
+      "idUser": user!.id
+    });
+    print(response.body);
+    response.statusCode == 200 ? onDone!() : null;
+  }
 
   Future<Null> addReclamation(
       {idUser, idcart, description, sujet, VoidCallback? onDone}) async {

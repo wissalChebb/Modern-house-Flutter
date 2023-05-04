@@ -83,14 +83,12 @@ class Body extends StatelessWidget {
               DefaultButton(
                 text: "SEND",
                 press: () {
-                  print("wissal chebbi b");
-                  print(description.text);
-                  print(sujet.text);
+
                   apiData.addReclamation(
                       idcart: cart.id,
                       description:"${description.text}" ,
                       sujet: "${sujet.text}",
-                      onDone: () => print("sa7iit"));
+                      onDone: () =>  _showPopupMessage(context, "claim", "Your claim  is successfuly sent!"));
                 },
               )
             ],
@@ -99,4 +97,23 @@ class Body extends StatelessWidget {
       ),
     );
   }
+}
+void _showPopupMessage(BuildContext context, String title, String content) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title),
+        content: Text(content),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text("OK"),
+          ),
+        ],
+      );
+    },
+  );
 }
