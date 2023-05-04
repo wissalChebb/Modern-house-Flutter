@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pim/components/api_routes.dart';
 import 'package:pim/models/Product.dart';
 import 'package:pim/screens/details/details_screen.dart';
 
@@ -42,8 +43,8 @@ class ProductCard extends StatelessWidget {
                   ),
                   child: Hero(
                     tag: product.id.toString(),
-                    child: Image.network(
-                        'http://192.168.1.168:9090/img/${product.image}'),
+                    child:
+                        Image.network('${Api_Routes.base}img/${product.image}'),
                   ),
                 ),
               ),

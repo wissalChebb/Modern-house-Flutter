@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pim/components/api_routes.dart';
 import 'package:pim/components/default_button.dart';
 import 'package:pim/components/global_repos.dart';
 import 'package:http/http.dart' as http;
@@ -13,8 +14,8 @@ import '../../../models/user.dart';
 class CheckoutCard extends StatefulWidget {
   final String product_id;
   final String idUser;
-  const CheckoutCard({super.key, required this.product_id, required this.idUser});
-
+  const CheckoutCard(
+      {super.key, required this.product_id, required this.idUser});
 
   @override
   State<CheckoutCard> createState() => _CheckoutCardState();
@@ -82,7 +83,6 @@ class _CheckoutCardState extends State<CheckoutCard> {
                 ),
                 IconButton(
                   onPressed: () {
-
                     VerifCode(context, _textController.text);
                     print('Icon button pressed');
                   },
@@ -121,10 +121,9 @@ class _CheckoutCardState extends State<CheckoutCard> {
                               apiData.addCart(
                                 idUser: widget.idUser,
                                 product_id: widget.product_id,
-                                onDone: () {
-
-                              },);
-                             // apiData.createPaymentRequest(context);
+                                onDone: () {},
+                              );
+                              // apiData.createPaymentRequest(context);
                             }
                           },
                         ),
@@ -163,7 +162,7 @@ Future VerifCode(context, code) async {
 // obtain shared preferences
 
   final response = await http.post(
-    Uri.parse('http://192.168.1.168:9090/Promo/check/'),
+    Uri.parse('${Api_Routes.base}Promo/check/'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

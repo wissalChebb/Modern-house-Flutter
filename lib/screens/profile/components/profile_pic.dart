@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pim/components/api_routes.dart';
 
 import '../../../models/user.dart';
 
@@ -13,7 +14,7 @@ class ProfilePic extends StatelessWidget {
     String? img = user?.image;
     String? url = "";
     if (img != "") {
-      url = 'http://192.168.1.168:9090/img/' + img!;
+      url = '${Api_Routes.base}img/' + img!;
     } else {
       url =
           "https://images.pexels.com/photos/3307758/pexels-photo-3307758.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250";

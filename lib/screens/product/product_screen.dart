@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:pim/components/api_routes.dart';
 import 'package:pim/components/coustom_bottom_nav_bar.dart';
 import 'package:pim/models/Product.dart'; // assuming that you have defined the Product class
 import 'package:pim/enums.dart';
@@ -48,7 +49,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
   Future<void> _fetchProducts() async {
     try {
       final response =
-          await http.get(Uri.parse('http://192.168.1.168:9090/produit/getall'));
+          await http.get(Uri.parse('${Api_Routes.base}produit/getall'));
 
       if (response.statusCode == 200) {
         final List<dynamic> jsonList = jsonDecode(response.body);
@@ -69,7 +70,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
   Future<void> _addToWishlist(id, productId) async {
     try {
-      final url = Uri.parse('http://192.168.1.168:9090/wishlist/addwish');
+      final url = Uri.parse('${Api_Routes.base}wishlist/addwish');
       final response = await http.post(url, body: {
         'idproduct': productId,
         'idUser': id,
@@ -88,7 +89,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
   void _sortProductsByCategory(String category) async {
     try {
-      final url = Uri.parse('http://192.168.1.168:9090/produit/getbycategory');
+      final url = Uri.parse('${Api_Routes.base}produit/getbycategory');
       final response = await http.post(url, body: {
         'category': category,
       });
@@ -113,7 +114,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
   Future _fetchProductswish(id) async {
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.1.168:9090/wishlist/getwishid'),
+        Uri.parse('${Api_Routes.base}wishlist/getwishid'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Charset': 'utf-8'
@@ -293,7 +294,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                       child: Row(
                         children: [
                           Image.network(
-                            'http://192.168.1.168:9090/img/${product.image}',
+                            '${Api_Routes.base}img/${product.image}',
                             width: 80.0,
                             height: 80.0,
                             fit: BoxFit.cover,

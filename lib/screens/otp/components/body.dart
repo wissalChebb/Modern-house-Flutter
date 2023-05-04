@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pim/components/api_routes.dart';
 import 'package:pim/constants.dart';
 import 'package:pim/size_config.dart';
 import 'package:http/http.dart' as http;
@@ -65,7 +66,7 @@ class Body extends StatelessWidget {
 
 Future resetpwd(email) async {
   final response = await http.post(
-    Uri.parse('http://192.168.1.183:9090/user/resetpwd'),
+    Uri.parse('${Api_Routes.base}user/resetpwd'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

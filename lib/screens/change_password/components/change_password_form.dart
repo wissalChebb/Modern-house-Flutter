@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pim/components/api_routes.dart';
 import 'package:pim/components/custom_surfix_icon.dart';
 import 'package:pim/components/default_button.dart';
 import 'package:pim/components/form_error.dart';
@@ -138,7 +139,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
 
 Future changepassword(context, value, email) async {
   final response = await http.post(
-    Uri.parse('http://192.168.1.168:9090/user/changepwd'),
+    Uri.parse('${Api_Routes.base}user/changepwd'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

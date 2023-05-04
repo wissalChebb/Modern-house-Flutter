@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pim/components/api_routes.dart';
 import 'package:pim/components/default_button.dart';
 import 'package:pim/components/global_repos.dart';
 import 'package:pim/models/user.dart';
@@ -8,7 +9,11 @@ class Body extends StatefulWidget {
   final String product_id;
   final String product_name;
   final String product_image;
-  Body({super.key, required this.product_id, required this.product_name, required this.product_image});
+  Body(
+      {super.key,
+      required this.product_id,
+      required this.product_name,
+      required this.product_image});
 
   @override
   State<Body> createState() => _BodyState();
@@ -38,7 +43,7 @@ class _BodyState extends State<Body> {
                       CircleAvatar(
                         radius: 18.0,
                         backgroundImage: NetworkImage(
-                            'http://192.168.1.183:9090/img/${user!.image}'),
+                            '${Api_Routes.base}img/${user!.image}'),
                         backgroundColor: Colors.transparent,
                       ),
                       SizedBox(
@@ -66,7 +71,7 @@ class _BodyState extends State<Body> {
                         height: 100,
                         width: 100,
                         child: Image.network(
-                            'http://172.16.13.103:9090/img/${widget.product_image}'),
+                            '${Api_Routes.base}img/${widget.product_image}'),
                       ),
                     ),
                     Column(
@@ -75,7 +80,7 @@ class _BodyState extends State<Body> {
                           "${widget.product_name}",
                           style: TextStyle(fontSize: 20),
                         ),
-                         Rating(
+                        Rating(
                           rate: rate,
                           rateValue: (newValue) {
                             setState(() {

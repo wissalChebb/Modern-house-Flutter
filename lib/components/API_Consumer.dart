@@ -33,8 +33,8 @@ class API_Consumer {
   static Future<List<Cart>> getCommandUserFromBackend() async {
     var response = await post(Uri.parse(Api_Routes.get_all_Commands),
         body: {"idUser": user!.id});
-    var decode = json.decode(response.body) as List<dynamic>;
-    return decode.map((e) {
+    var jsonDecode = json.decode(response.body);
+    return jsonDecode.map((e) {
       print("wissal mapping");
       print(e);
       var cart = Cart.fromJson(e);
@@ -94,13 +94,10 @@ class API_Consumer {
     print(response.body);
     response.statusCode == 200 ? onDone!() : null;
   }
-  Future<Null> addCart(
-      {product_id, idUser, VoidCallback? onDone}) async {
-    Response response =
-    await post(Uri.parse(Api_Routes.addCommand), body: {
-      "product_id": product_id,
-      "idUser": user!.id
-    });
+
+  Future<Null> addCart({product_id, idUser, VoidCallback? onDone}) async {
+    Response response = await post(Uri.parse(Api_Routes.addCommand),
+        body: {"product_id": product_id, "idUser": user!.id});
     print(response.body);
     response.statusCode == 200 ? onDone!() : null;
   }

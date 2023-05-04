@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pim/components/api_routes.dart';
 import 'package:pim/models/Cart.dart';
 import 'package:pim/models/Product.dart';
 import 'package:pim/models/User.dart';
@@ -39,7 +40,7 @@ class _itemCommandState extends State<itemCommand> {
                 child:
                     Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                   Image.network(
-                    'http://192.168.1.168:9090/img/${widget.cart!.product!.image}',
+                    '${Api_Routes.base}img/${widget.cart!.product!.image}',
                     height: 50, width: 50,
                     // ajuster l'image pour remplir complètement le conteneur
                   ),

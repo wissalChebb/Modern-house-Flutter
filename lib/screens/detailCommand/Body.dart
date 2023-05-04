@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:pim/components/API_Consumer.dart';
+import 'package:pim/components/api_routes.dart';
 import 'package:pim/components/default_button.dart';
 import 'package:pim/models/Cart.dart';
 import 'package:pim/models/Product.dart';
@@ -37,7 +38,7 @@ class itemProduit extends StatelessWidget {
           children: [
             Image.network(
               //"assets/images/download.jpg", height: 60, width: 60,
-              'http://192.168.1.168/img/${product.image!}', height: 60,
+              '${Api_Routes.base}img/${product.image!}', height: 60,
               width: 60,
               // ajuster l'image pour remplir complètement le conteneur
             ),

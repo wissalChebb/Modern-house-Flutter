@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pim/components/api_routes.dart';
 
 import 'package:pim/models/Product.dart';
 
@@ -30,7 +31,7 @@ class _ProductImagesState extends State<ProductImages> {
             child: Hero(
               tag: widget.product.id.toString(),
               child: Image.network(
-                  'http://192.168.1.168:9090/img/${widget.product.image}'),
+                  '${Api_Routes.base}img/${widget.product.image}'),
             ),
           ),
         ),
@@ -65,8 +66,7 @@ class _ProductImagesState extends State<ProductImages> {
           border: Border.all(
               color: kPrimaryColor.withOpacity(selectedImage == index ? 1 : 0)),
         ),
-        child: Image.network(
-            'http://192.168.1.168:9090/img/${widget.product.image}'),
+        child: Image.network('${Api_Routes.base}img/${widget.product.image}'),
       ),
     );
   }

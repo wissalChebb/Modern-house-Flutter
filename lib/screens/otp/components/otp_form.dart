@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pim/components/api_routes.dart';
 import 'package:pim/components/default_button.dart';
 import 'package:pim/screens/change_password/change_password.dart';
 import 'package:pim/size_config.dart';
@@ -127,7 +128,7 @@ class _OtpFormState extends State<OtpForm> {
 
 Future checkcode(context, value, email) async {
   final response = await http.post(
-    Uri.parse('http://192.168.1.183:9090/user/resetpassword'),
+    Uri.parse('${Api_Routes.base}user/resetpassword'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pim/components/api_routes.dart';
 import 'package:pim/components/custom_surfix_icon.dart';
 import 'package:pim/components/default_button.dart';
 import 'package:pim/components/form_error.dart';
@@ -47,7 +48,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   @override
   Widget build(BuildContext context) {
     if (img != "") {
-      url = 'http://172.16.2.241:9090/img/' + img!;
+      url = '${Api_Routes.base}img/' + img!;
     } else {
       url =
           "https://images.pexels.com/photos/3307758/pexels-photo-3307758.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250";
@@ -182,7 +183,7 @@ Future<void> _getImage(id) async {
     File imageFile = File(pickedFile.path);
     print(imageFile.path);
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://192.168.1.168:9090/user/' + id));
+        'POST', Uri.parse('${Api_Routes.base}user/' + id));
     request.files
         .add(await http.MultipartFile.fromPath('image', imageFile.path));
     var response = await request.send();
@@ -192,7 +193,7 @@ Future<void> _getImage(id) async {
 
 Future modifCompte(email, username, id) async {
   final response = await http.patch(
-    Uri.parse('http://192.168.1.7:9090/user/' + id),
+    Uri.parse('${Api_Routes.base}user/' + id),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

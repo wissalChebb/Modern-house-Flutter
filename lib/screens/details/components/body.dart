@@ -142,8 +142,6 @@ class PostWidget extends StatefulWidget {
 }
 
 class _PostWidgetState extends State<PostWidget> {
-  User? user;
-
   @override
   void initState() {
     // TODO: implement initState
@@ -178,8 +176,8 @@ class _PostWidgetState extends State<PostWidget> {
                 children: <Widget>[
                   CircleAvatar(
                     radius: 18.0,
-                    backgroundImage: NetworkImage(
-                        'http://192.168.1.168:9090/img/${user!.image}'),
+                    backgroundImage:
+                        NetworkImage('${Api_Routes.base}img/${user!.image}'),
                     backgroundColor: Colors.transparent,
                   ),
                   const SizedBox(
