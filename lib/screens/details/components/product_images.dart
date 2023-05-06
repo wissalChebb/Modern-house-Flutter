@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pim/components/api_routes.dart';
+import 'package:model_viewer_plus/model_viewer_plus.dart';
 
 import 'package:pim/models/Product.dart';
 
@@ -28,11 +28,16 @@ class _ProductImagesState extends State<ProductImages> {
           width: getProportionateScreenWidth(238),
           child: AspectRatio(
             aspectRatio: 1,
-            child: Hero(
-              tag: widget.product.id.toString(),
-              child: Image.network(
-                  '${Api_Routes.base}img/${widget.product.image}'),
-            ),
+            child: ModelViewer(
+          src: 'http://172.16.15.87:9090/img/${widget.product.image}',
+          alt: "A 3D model ",
+          ar: true,
+          arPlacement: ArPlacement.floor,
+          autoRotate: true,
+          cameraControls: true,
+       
+         
+        )
           ),
         ),
         // SizedBox(height: getProportionateScreenWidth(20)),
@@ -66,7 +71,8 @@ class _ProductImagesState extends State<ProductImages> {
           border: Border.all(
               color: kPrimaryColor.withOpacity(selectedImage == index ? 1 : 0)),
         ),
-        child: Image.network('${Api_Routes.base}img/${widget.product.image}'),
+        child: Image.network(
+           'http://172.16.15.87:9090/img/${widget.product.image}'),
       ),
     );
   }

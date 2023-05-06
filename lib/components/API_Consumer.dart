@@ -131,12 +131,12 @@ class API_Consumer {
       "last_name": " ",
       "email": user!.email
     });
-    Map<String, dynamic> data = json.decode(response.body);
+  /*  Map<String, dynamic> data = json.decode(response.body);
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (context) =>
-                PaymentWebView(paymen_url: data['data']['payUrl'])));
+                PaymentWebView(paymen_url: data['data']['payUrl'])));*/
   }
 
   API_Consumer() {
