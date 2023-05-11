@@ -25,7 +25,7 @@ Product? product;
 class Product {
   String? id;
   String? title, description, category, image;
-  int? price, quantity;
+  int? price, quantity , item;
   bool isFavourite, isPopular;
   List<String> images;
   List<Color> colors;
@@ -37,6 +37,7 @@ class Product {
       this.description,
       this.category,
       this.price,
+      this.item,
       this.quantity,
       this.images = const [],
       this.colors = const [],
@@ -52,6 +53,7 @@ class Product {
         id: jsonData['_id'],
         title: jsonData['productname'],
         image: jsonData['image'],
+        item: jsonData['item'],
         description: jsonData['description'],
         category: jsonData['category'],
         price: jsonData['price'],
