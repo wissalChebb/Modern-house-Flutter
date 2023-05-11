@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:pim/components/api_routes.dart';
 import 'package:pim/components/coustom_bottom_nav_bar.dart';
 import 'package:pim/models/Product.dart'; // assuming that you have defined the Product class
 import 'package:pim/enums.dart';
@@ -9,6 +8,7 @@ import 'package:pim/models/user.dart';
 import 'package:pim/screens/WishList/WishScreen.dart';
 import 'package:pim/models/Wishlist.dart';
 import 'package:pim/screens/details/details_screen.dart';
+
 
 class ProductListScreen extends StatefulWidget {
   static String routeName = "/produit";
@@ -49,7 +49,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
   Future<void> _fetchProducts() async {
     try {
       final response =
-          await http.get(Uri.parse('${Api_Routes.base}produit/getall'));
+          await http.get(Uri.parse('http://192.168.1.183:9090/produit/getall'));
 
       if (response.statusCode == 200) {
         final List<dynamic> jsonList = jsonDecode(response.body);
@@ -70,7 +70,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
   Future<void> _addToWishlist(id, productId) async {
     try {
-      final url = Uri.parse('${Api_Routes.base}wishlist/addwish');
+      final url = Uri.parse('http://192.168.1.183:9090/wishlist/addwish');
       final response = await http.post(url, body: {
         'idproduct': productId,
         'idUser': id,
@@ -89,7 +89,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
   void _sortProductsByCategory(String category) async {
     try {
-      final url = Uri.parse('${Api_Routes.base}produit/getbycategory');
+      final url = Uri.parse('http://192.168.1.183:9090/produit/getbycategory');
       final response = await http.post(url, body: {
         'category': category,
       });
@@ -114,7 +114,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
   Future _fetchProductswish(id) async {
     try {
       final response = await http.post(
-        Uri.parse('${Api_Routes.base}wishlist/getwishid'),
+        Uri.parse('http://192.168.1.183:9090/wishlist/getwishid'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Charset': 'utf-8'
@@ -267,104 +267,101 @@ class _ProductListScreenState extends State<ProductListScreen> {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: _searchQuery.isNotEmpty
-                    ? _filteredProducts.length
-                    : _products.length,
-                itemBuilder: (context, index) {
-                  final product = _searchQuery.isNotEmpty
-                      ? _filteredProducts[index]
-                      : _products[index];
-                  return GestureDetector(
-                    onTap: () => Navigator.pushNamed(
-                      context,
-                      DetailsScreen.routeName,
-                      arguments: ProductDetailsArguments(product: product),
+                child: ListView.builder(
+  itemCount: _searchQuery.isNotEmpty
+      ? _filteredProducts.length
+      : _products.length,
+  itemBuilder: (context, index) {
+    final product = _searchQuery.isNotEmpty
+        ? _filteredProducts[index]
+        : _products[index];
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(
+        context,
+        DetailsScreen.routeName,
+        arguments: ProductDetailsArguments(product: product),
+      ),
+      child: Container(
+        padding: EdgeInsets.all(16.0),
+        margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Color.fromARGB(255, 85, 77, 77),
+          ),
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: Row(
+          children: [
+            Image.network(
+              'http://192.168.1.183:9090/img/${product.image}',
+              width: 80.0,
+              height: 80.0,
+              fit: BoxFit.cover,
+            ),
+            SizedBox(width: 16.0),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    product.title!,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.0,
                     ),
-                    child: Container(
-                      padding: EdgeInsets.all(16.0),
-                      margin:
-                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Color.fromARGB(255, 85, 77, 77),
+                  ),
+                  Text(
+                    product.description!,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '\$${product.price!.toStringAsFixed(2)}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
                         ),
-                        borderRadius: BorderRadius.circular(16.0),
                       ),
-                      child: Row(
+                      Row(
                         children: [
-                          Image.network(
-                            '${Api_Routes.base}img/${product.image}',
-                            width: 80.0,
-                            height: 80.0,
-                            fit: BoxFit.cover,
+                          IconButton(
+                            onPressed: () {
+                              // Add to cart action
+                            },
+                            icon: Icon(Icons.add_shopping_cart),
+                            color: Colors.orange,
                           ),
-                          SizedBox(width: 16.0),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(
-                                  product.title!,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18.0,
-                                  ),
-                                ),
-                                Text(
-                                  product.description!,
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                    color: Colors.grey[600],
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      '\$${product.price!.toStringAsFixed(2)}',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18.0,
-                                      ),
-                                    ),
-                                    Row(
-                                      children: [
-                                        IconButton(
-                                          onPressed: () {
-                                            // Add to cart action
-                                          },
-                                          icon: Icon(Icons.add_shopping_cart),
-                                          color: Colors.orange,
-                                        ),
-                                        SizedBox(width: 8.0),
-                                        IconButton(
-                                          onPressed: () {
-                                            _addToWishlist(
-                                                user?.id, product.id);
-                                          },
-                                          icon: Icon(Icons.favorite_border),
-                                          color:
-                                              wishlistIds.contains(product.id)
-                                                  ? Colors.orange
-                                                  : Colors.grey,
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                          SizedBox(width: 8.0),
+                          IconButton(
+                            onPressed: () {
+                              _addToWishlist(user?.id, product.id);
+                            },
+                            icon: Icon(Icons.favorite_border),
+                            color:
+                                wishlistIds.contains(product.id)
+                                    ? Colors.orange
+                                    : Colors.grey,
                           ),
                         ],
                       ),
-                    ),
-                  );
-                },
+                    ],
+                  ),
+                ],
               ),
             ),
+          ],
+        ),
+      ),
+    );
+  },
+),
+              ),
           ],
         ),
         bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.home),
