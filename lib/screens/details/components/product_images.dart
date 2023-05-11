@@ -3,6 +3,7 @@ import 'package:model_viewer_plus/model_viewer_plus.dart';
 
 import 'package:pim/models/Product.dart';
 
+import '../../../components/api_routes.dart';
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
@@ -29,7 +30,7 @@ class _ProductImagesState extends State<ProductImages> {
           child: AspectRatio(
             aspectRatio: 1,
             child: ModelViewer(
-          src: 'http://172.16.15.87:9090/img/${widget.product.image}',
+          src: '${Api_Routes.base}img/${widget.product.image}',
           alt: "A 3D model ",
           ar: true,
           arPlacement: ArPlacement.floor,
