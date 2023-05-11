@@ -166,7 +166,7 @@ Future VerifCode(context, code) async {
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
-    body: jsonEncode(<String, String>{'code': code, 'idUser': user!.id}),
+    body: jsonEncode(<String, String>{'code': code, 'idUser': user!.id!}),
   );
   print(response.body);
   if (response.statusCode == 200) {

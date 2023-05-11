@@ -11,30 +11,30 @@ User? user;
 
 class User {
   User({
-    required this.username,
-    required this.email,
-    required this.password,
-    required this.role,
-    required this.verified,
-    required this.banned,
-    required this.image,
-    required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
+     this.username,
+     this.email,
+     this.password,
+     this.role,
+     this.verified,
+     this.banned,
+     this.image,
+     this.id,
+     this.createdAt,
+     this.updatedAt,
+     this.v,
   });
 
-  String username;
-  String email;
-  String password;
-  String role;
-  bool verified;
-  bool banned;
-  String image;
-  String id;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int v;
+  String? username;
+  String? email;
+  String? password;
+  String? role;
+  bool? verified;
+  bool? banned;
+  String? image;
+  String? id;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? v;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         username: json["username"],
@@ -59,8 +59,8 @@ class User {
         "verified": verified,
         "banned": banned,
         "_id": id,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        "createdAt": createdAt!,
+        "updatedAt": updatedAt!,
         "__v": v,
       };
 }

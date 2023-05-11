@@ -201,10 +201,10 @@ Future signin(context, email, password) async {
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
     user = User.fromJson(jsonDecode(response.body));
-    if (user!.banned) {
+    if (user!.banned!) {
       _showPopupMessage(context, "Banned", "Your account have been banned !");
     } else {
-      if (user!.verified) {
+      if (user!.verified!) {
         Navigator.pushNamed(context, LoginSuccessScreen.routeName);
       } else {
         _showPopupMessage(
