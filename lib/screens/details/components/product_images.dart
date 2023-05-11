@@ -73,7 +73,7 @@ class _ProductImagesState extends State<ProductImages> {
               color: kPrimaryColor.withOpacity(selectedImage == index ? 1 : 0)),
         ),
         child: Image.network(
-           'http://172.16.15.87:9090/img/${widget.product.image}'),
+           '${Api_Routes.base}img/${widget.product.image}'),
       ),
     );
   }

@@ -123,7 +123,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                                 product_id: widget.product_id,
                                 onDone: () {},
                               );
-                              // apiData.createPaymentRequest(context);
+                               apiData.createPaymentRequest(context);
                             }
                           },
                         ),

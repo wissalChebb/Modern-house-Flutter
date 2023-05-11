@@ -8,6 +8,7 @@ import 'package:pim/models/Cart.dart';
 import 'package:pim/models/Product.dart';
 import 'package:pim/models/Rate.dart';
 import 'package:pim/models/user.dart';
+import 'package:pim/screens/payment_web_view.dart';
 import 'package:rxdart/rxdart.dart';
 import 'global_repos.dart';
 
@@ -119,20 +120,17 @@ class API_Consumer {
     return User.fromJson(json.decode(respone.body));
   }
 
-  Future<Null> createPaymentRequest(BuildContext context) async {
-    Response response = await post(Uri.parse(Api_Routes.Payment_Pay), body: {
-      "prix": (cart_repo.totalCartPrice * 1000).toString(),
-      "first_name": user!.username,
-      "last_name": " ",
-      "email": user!.email
+  Future<Null> createPaymentRequest(BuildContext context) async{
+    Response response = await post(Uri.parse(Api_Routes.Payment_Pay),body: {
+      "prix"  : (cart_repo.totalCartPrice*1000).toString(),
+      "first_name" : user!.username,
+      "last_name" : " ",
+      "email" : user!.email
     });
-  /*  Map<String, dynamic> data = json.decode(response.body);
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                PaymentWebView(paymen_url: data['data']['payUrl'])));*/
+    Map<String, dynamic> data = json.decode(response.body);
+   // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PaymentWebView(paymen_url: data['data']['payUrl']) ) );
   }
+
 
   API_Consumer() {
     getAllProducts();
