@@ -1,17 +1,21 @@
 import 'dart:collection';
-
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:pim/components/api_routes.dart';
 import 'package:pim/components/default_button.dart';
 
 import 'package:pim/components/global_repos.dart';
 import 'package:pim/models/Product.dart';
+import 'package:pim/models/Product.dart';
 import 'package:pim/models/Rate.dart';
 import 'package:pim/models/user.dart';
 import 'package:pim/size_config.dart';
 
+import '../../../components/product_card.dart';
+import '../../../models/Product.dart';
+import '../../../models/Product.dart';
 import 'color_dots.dart';
 import 'product_description.dart';
 import 'top_rounded_container.dart';
@@ -58,8 +62,8 @@ class Body extends StatelessWidget {
                                 cart_repo.addToCart(product, 1);
                               },
                             ),
-
-                            // FeedBackCard()
+                            SizedBox(height: getProportionateScreenWidth(20)),
+                            Similar(product.item),
                           ],
                         ),
                       ),
@@ -76,10 +80,10 @@ class Body extends StatelessWidget {
                     StreamBuilder<UnmodifiableListView<Rate>>(
                       stream: apiData.Rates,
                       initialData: UnmodifiableListView([]),
-                      builder: (context, snapshost) {
+                      builder: (context, snapshot) {
                         return Column(
                           //print(snapshost.data!);
-                          children: snapshost.data!
+                          children: snapshot.data!
                               .map((e) => PostWidget(
                                     rate: e,
                                   ))
@@ -94,6 +98,63 @@ class Body extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class Similar extends StatefulWidget {
+  final int? item ;
+
+  Similar(this.item);
+
+  @override
+  _SimilarState createState() => _SimilarState();
+}
+
+class _SimilarState extends State<Similar> {
+  List<Product> _products = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchProducts();
+  }
+
+  Future<void> _fetchProducts() async {
+    try {
+      final response = await http.get(Uri.parse(
+          'http://192.168.1.13:8000/similar_products/${widget.item}'));
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonList = jsonDecode(response.body);
+        final List<Product> productList =
+            jsonList.map((json) => Product.fromJson(json)).toList();
+        setState(() {
+          _products = productList;
+        });
+      } else {
+        throw Exception('Failed to fetch products');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          ..._products.map((product) {
+            if (!product.isPopular)
+              return ProductCard(product: product);
+            else
+              return SizedBox.shrink(); // here by default width and height is 0
+          }).toList(),
+          SizedBox(width: getProportionateScreenWidth(20)),
+        ],
+      ),
     );
   }
 }
