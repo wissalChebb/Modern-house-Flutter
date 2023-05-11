@@ -128,14 +128,15 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
       if (response.statusCode == 200) {
         final wishlist = wishlistFromJson(response.body);
-        final List<Productw> productList = wishlist.products.toList();
+        final List<Productw> productList = wishlist.products!.toList();
 
         print(productList);
         setState(() {
-          _productss = productList;
-          // Create a list of wishlist product IDs
-          wishlistIds = productList.map((product) => product.id).toList();
-        });
+  _productss = productList;
+  // Create a list of wishlist product IDs
+  wishlistIds = productList.map((product) => product.id).whereType<String>().toList();
+});
+
       } else {
         throw Exception('Failed to fetch products');
       }

@@ -45,7 +45,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
 
       if (response.statusCode == 200) {
         final wishlist = wishlistFromJson(response.body);
-        final List<Productw> productList = wishlist.products.toList();
+        final List<Productw> productList = wishlist.products!.toList();
 
         print(productList);
         setState(() {
@@ -105,7 +105,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              product.productname,
+                              product.productname!,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18.0,
@@ -113,7 +113,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                             ),
                             SizedBox(height: 5.0),
                             Text(
-                              product.description,
+                              product.description!,
                               style: TextStyle(
                                 fontSize: 16.0,
                                 color: Colors.grey[600],
@@ -121,7 +121,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                             ),
                             SizedBox(height: 10.0),
                             Text(
-                              '\$${product.price.toStringAsFixed(2)}',
+                              '\$${product.price!.toStringAsFixed(2)}',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18.0,

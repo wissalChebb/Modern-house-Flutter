@@ -11,16 +11,17 @@ String wishlistToJson(Wishlist data) => json.encode(data.toJson());
 
 class Wishlist {
   Wishlist({
-    required this.id,
-    required this.user,
-    required this.products,
-    required this.v,
+     this.id,
+     this.user,
+     this.products,
+     this.v,
   });
 
-  String id;
-  List<String> user;
-  List<Productw> products;
-  int v;
+  String? id;
+  List<String>? user;
+  List<Productw>? products;
+  int? v;
+
 
   factory Wishlist.fromJson(Map<String, dynamic> json) => Wishlist(
         id: json["_id"],
@@ -32,51 +33,38 @@ class Wishlist {
 
   Map<String, dynamic> toJson() => {
         "_id": id,
-        "user": List<dynamic>.from(user.map((x) => x)),
-        "products": List<dynamic>.from(products.map((x) => x.toJson())),
+        "user": List<dynamic>.from(user!.map((x) => x)),
+        "products": List<dynamic>.from(products!.map((x) => x.toJson())),
         "__v": v,
       };
 }
 
 class Productw {
   Productw({
-    required this.id,
-    required this.productname,
-    required this.image,
-    required this.description,
-    required this.price,
-    required this.quantity,
-    required this.category,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
+     this.id,
+     this.productname,
+     this.image,
+     this.description,
+     this.price,
+     this.quantity,
+     this.category,
+     this.createdAt,
+     this.updatedAt,
+     this.v,
   });
 
-  String id;
-  String productname;
-  String image;
-  String description;
-  int price;
-  int quantity;
-  String category;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int v;
+  String? id;
+  String? productname;
+  String? image;
+  String? description;
+  int? price;
+  int? quantity;
+  String? category;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? v;
 
-  factory Productw.fromJson(Map<String, dynamic> json) => Productw(
-        id: json["_id"],
-        productname: json["productname"],
-        image: json["image"],
-        description: json["description"],
-        price: json["price"],
-        quantity: json["quantity"],
-        category: json["category"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
-        v: json["__v"],
-      );
-
-  Map<String, dynamic> toJson() => {
+Map<String, dynamic> toJson() => {
         "_id": id,
         "productname": productname,
         "image": image,
@@ -84,8 +72,21 @@ class Productw {
         "price": price,
         "quantity": quantity,
         "category": category,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        "createdAt": createdAt!,
+        "updatedAt": updatedAt!,
         "__v": v,
       };
+  factory Productw.fromJson(Map<String, dynamic> jsonData) {
+    print("wissal chebbi product:");
+    print(jsonData);
+    print(jsonData['image']);
+    return Productw(
+        id: jsonData['_id'],
+        productname: jsonData['productname'],
+        image: jsonData['image'],
+        description: jsonData['description'],
+        category: jsonData['category'],
+        price: jsonData['price'],
+        quantity: jsonData['quantity']);
+  }
 }
