@@ -47,7 +47,7 @@ dependencies:
   google_sign_in: ^6.1.0
   comment_box: ^0.0.18
   model_viewer_plus:
-  
+  in_app_notification: any 
 
 
 dev_dependencies:
