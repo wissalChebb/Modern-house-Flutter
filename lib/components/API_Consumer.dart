@@ -34,13 +34,17 @@ class API_Consumer {
     var response = await post(Uri.parse(Api_Routes.get_all_Commands),
         body: {"idUser": user!.id});
     var jsonDecode = json.decode(response.body);
-    return jsonDecode.map((e) {
+    List<Cart> data = [];
+    jsonDecode.map((e) {
       print("wissal mapping");
       print(e);
+      e['user'][0] = e['user'][0]['_id'].toString();
       var cart = Cart.fromJson(e);
+      //cart.idUser = jsonDecode['user'][0]['_id'].toString();
       print(cart.product);
-      return Cart.fromJson(e);
+      data.add(cart);
     }).toList();
+    return data;
   }
 
   /***/
@@ -96,8 +100,10 @@ class API_Consumer {
   }
 
   Future<Null> addCart({product_id, idUser, VoidCallback? onDone}) async {
+    print(cart_repo.cardData.last.id);
+    print(product_id);
     Response response = await post(Uri.parse(Api_Routes.addCommand),
-        body: {"product_id": product_id, "idUser": user!.id});
+        body: {"idproduct": product_id, "idUser": user!.id});
     print(response.body);
     response.statusCode == 200 ? onDone!() : null;
   }

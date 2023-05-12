@@ -14,7 +14,7 @@ import '../../../models/user.dart';
 class CheckoutCard extends StatefulWidget {
   final String product_id;
   final String idUser;
-  const CheckoutCard(
+  CheckoutCard(
       {super.key, required this.product_id, required this.idUser});
 
   @override
@@ -118,11 +118,14 @@ class _CheckoutCardState extends State<CheckoutCard> {
                           text: "Check Out",
                           press: () {
                             if (snapshot.data!.isNotEmpty) {
-                            /*  apiData.addCart(
-                                idUser: widget.idUser,
-                                product_id: widget.product_id,
-                                onDone: () {},
-                              );*/
+
+                             snapshot.data!.forEach((element) {
+                               apiData.addCart(
+                                 idUser: widget.idUser,
+                                 product_id: element.id,
+                                 onDone: () {},
+                               );
+                             });
                                apiData.createPaymentRequest(context);
                             }
                           },

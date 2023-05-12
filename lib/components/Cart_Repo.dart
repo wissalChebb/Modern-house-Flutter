@@ -6,7 +6,7 @@ import 'package:rxdart/rxdart.dart';
 import '../models/Cart.dart';
 
 class Cart_Repo {
-  List<Cart> _cardData = [];
+  List<Cart> cardData = [];
   final _cartSubject = new BehaviorSubject<UnmodifiableListView<Cart>>();
   double? totalwithdiscount;
   int get totalCartPrice => _totalPrice();
@@ -14,23 +14,23 @@ class Cart_Repo {
   Stream<UnmodifiableListView<Cart>> get CartData => _cartSubject.stream;
 
   void addToCart(Product product, int Quantity) {
-    _cardData.add(Cart(id: product.id, product: product, numOfItem: Quantity));
-    _cartSubject.add(UnmodifiableListView(_cardData));
+    cardData.add(Cart(id: product.id, product: product, numOfItem: Quantity));
+    _cartSubject.add(UnmodifiableListView(cardData));
   }
 
   void removeFromCart(String id) {
-    _cardData.removeWhere((element) => element.id == id);
-    _cartSubject.add(UnmodifiableListView(_cardData));
+    cardData.removeWhere((element) => element.id == id);
+    _cartSubject.add(UnmodifiableListView(cardData));
   }
 
   void clearCart() {
-    _cardData.clear();
-    _cartSubject.add(UnmodifiableListView(_cardData));
+    cardData.clear();
+    _cartSubject.add(UnmodifiableListView(cardData));
   }
 
   _totalPrice() {
     int total = 0;
-    _cardData.forEach((element) {
+    cardData.forEach((element) {
       total += element.product!.price!;
     });
     return total;
