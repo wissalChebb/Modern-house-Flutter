@@ -68,7 +68,14 @@ class Body extends StatelessWidget {
 
   Future<void> _handleSignIn() async {
     try {
-      await _googleSignIn.signIn();
+
+final user =    await _googleSignIn.signIn();
+      await user!.authentication;
+print("nbvnbvbnvnb");
+      print(user.displayName);
+      print(user.email);
+      print(user.id);
+      print(user.photoUrl);
     } catch (error) {
       print(error);
     }

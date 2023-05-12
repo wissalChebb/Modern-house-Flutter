@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pim/models/User.dart';
 import 'package:pim/screens/comands/comand_screen.dart';
 import 'package:pim/screens/complete_profile/complete_profile_screen.dart';
 import 'package:pim/screens/sign_in/components/sign_form.dart';
@@ -50,7 +51,8 @@ class Body extends StatelessWidget {
             text: "Log Out",
             icon: "assets/icons/Log out.svg",
             press: () {
-              Navigator.pushNamed(context, SignInScreen.routeName);
+              user = null;
+              Navigator.pushReplacementNamed(context, SignInScreen.routeName);
             },
           ),
         ],
