@@ -118,11 +118,11 @@ class _CheckoutCardState extends State<CheckoutCard> {
                           text: "Check Out",
                           press: () {
                             if (snapshot.data!.isNotEmpty) {
-                              apiData.addCart(
+                            /*  apiData.addCart(
                                 idUser: widget.idUser,
                                 product_id: widget.product_id,
                                 onDone: () {},
-                              );
+                              );*/
                                apiData.createPaymentRequest(context);
                             }
                           },

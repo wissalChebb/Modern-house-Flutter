@@ -124,17 +124,41 @@ class API_Consumer {
     return User.fromJson(json.decode(respone.body));
   }
 
-  Future<Null> createPaymentRequest(BuildContext context) async{
-    Response response = await post(Uri.parse(Api_Routes.Payment_Pay),body: {
-      "prix"  : (cart_repo.totalCartPrice*1000).toString(),
-      "first_name" : user!.username,
-      "last_name" : " ",
-      "email" : user!.email
-    });
-    Map<String, dynamic> data = json.decode(response.body);
-   // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PaymentWebView(paymen_url: data['data']['payUrl']) ) );
+  Future<Null> createPaymentRequest(BuildContext context) async {
+    if (user != null) {
+      Response response = await post(Uri.parse(Api_Routes.Payment_Pay), body: {
+        "prix": (cart_repo.totalCartPrice * 1000).toString(),
+        "first_name": user!.username,
+        "last_name": " ",
+        "email": user!.email
+      });
+      Map<String, dynamic> data = json.decode(response.body);
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  PaymentWebView(paymen_url: data['data']['payUrl'])));
+    }
+    else {
+      showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Error'),
+        content: Text('Une error qui survenu'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('OK'),
+          ),
+        ],
+      );
+    },
+  );
+    }
   }
-
 
   API_Consumer() {
     getAllProducts();
